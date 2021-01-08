@@ -12,7 +12,6 @@ const App = () => (
   <>
     <Router>
       <Menu />
-
       <Route exact path="/" component={Main} />
       <Route path="/freeboard" component={FreeBoard} />
       <Route path="/feedboard" component={FeedBoard} />

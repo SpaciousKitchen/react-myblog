@@ -1,7 +1,8 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { Grid } from '@material-ui/core';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -14,6 +15,7 @@ import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
 import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded';
 import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
+import Login from './Login';
 
 const useStyles = makeStyles(() => ({
   loginbutton: {
@@ -36,74 +38,82 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Menu = () => {
+// eslint-disable-next-line react/prop-types
+const Menu = ({ children }) => {
+  const [loginVisible, setLoginVisible] = useState(false);
   const classes = useStyles();
   const history = useHistory();
-  // const onClickLogin = () => {
-  //   console.log('ClickLogin');
-  // };
 
   return (
     <>
-      <header
-        style={{
-          position: 'absolute',
-          height: '8%',
-          width: '100%',
-        }}
-      >
-        <IconButton style={{ marginRight: '20px' }}>
-          <MenuRoundedIcon />
-        </IconButton>
-
-        <Button
-          style={{ zIndex: 10000 }}
-          onClick={() => {
-            alert('clicked');
+      <div>
+        <header
+          style={{
+            position: 'absolute',
+            height: '8%',
+            width: '100%',
           }}
-          className={classes.loginbutton}
-          startIcon={<AccountCircleRoundedIcon />}
         >
-          로그인
-        </Button>
-      </header>
+          <IconButton style={{ marginRight: '20px' }}>
+            <MenuRoundedIcon />
+          </IconButton>
 
-      <div className={classes.sideBar}>
-        <MenuList>
-          <MenuItem
-            onClick={() => history.push('/')}
-            style={{ marginTop: '120px' }}
-          >
-            <ListItemIcon>
-              <HomeRoundedIcon fontSize="big" />
-            </ListItemIcon>
-          </MenuItem>
-
-          <MenuItem
+          <Button
+            style={{ zIndex: 10000 }}
             onClick={() => {
-              history.push('/freeboard');
+              setLoginVisible((pre) => !pre);
             }}
+            className={classes.loginbutton}
+            startIcon={<AccountCircleRoundedIcon />}
           >
-            {/* <Link to="/freeboard">자유게시판</Link> */}
-            <ListItemIcon>
-              <AssignmentRoundedIcon fontSize="big" />
-            </ListItemIcon>
-          </MenuItem>
-
-          <MenuItem onClick={() => history.push('/feedboard')}>
-            {/* <Link to="/feedboard">일상 피드</Link> */}
-            <ListItemIcon>
-              <SupervisorAccountRoundedIcon fontSize="big" />
-            </ListItemIcon>
-          </MenuItem>
-
-          <MenuItem onClick={() => history.push('/study')}>
-            <ListItemIcon>
-              <MenuBookRoundedIcon fontSize="big" />
-            </ListItemIcon>
-          </MenuItem>
-        </MenuList>
+            로그인
+          </Button>
+        </header>
       </div>
+      {loginVisible ? <Login /> : <> </>}
+
+      <Grid container>
+        <Grid xs={1}>
+          <div className={classes.sideBar}>
+            <MenuList>
+              <MenuItem
+                onClick={() => history.push('/')}
+                style={{ marginTop: '120px' }}
+              >
+                <ListItemIcon>
+                  <HomeRoundedIcon fontSize="big" />
+                </ListItemIcon>
+              </MenuItem>
+
+              <MenuItem
+                onClick={() => {
+                  history.push('/freeboard');
+                }}
+              >
+                {/* <Link to="/freeboard">자유게시판</Link> */}
+                <ListItemIcon>
+                  <AssignmentRoundedIcon fontSize="big" />
+                </ListItemIcon>
+              </MenuItem>
+
+              <MenuItem onClick={() => history.push('/feedboard')}>
+                {/* <Link to="/feedboard">일상 피드</Link> */}
+                <ListItemIcon>
+                  <SupervisorAccountRoundedIcon fontSize="big" />
+                </ListItemIcon>
+              </MenuItem>
+
+              <MenuItem onClick={() => history.push('/study')}>
+                <ListItemIcon>
+                  <MenuBookRoundedIcon fontSize="big" />
+                </ListItemIcon>
+              </MenuItem>
+            </MenuList>
+          </div>
+        </Grid>
+
+        <Grid xs={11}>{children}</Grid>
+      </Grid>
     </>
   );
 };
