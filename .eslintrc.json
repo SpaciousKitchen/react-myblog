@@ -4,12 +4,12 @@
         "es2021": true
     },
     "extends": [
-        "react-myblog",
         "eslint:recommended", 
         "plugin:prettier/recommended",
         "airbnb"
     ],
     "parserOptions": {
+
         "ecmaFeatures": {
             "jsx": true
         },
@@ -17,7 +17,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "prettier",  
+        "prettier",
+        "html"  
     ],
     "rules": {
         "prettier/prettier": "error"

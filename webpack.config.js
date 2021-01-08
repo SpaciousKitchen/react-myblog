@@ -1,32 +1,41 @@
-const path = require("path");
-const HtmlwebpackPlugin = require("html-webpack-plugin");
-const RefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const path = require('path');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
 module.exports = {
-  mode: "development",
-  entry: "./src/index.js",
+  mode: 'development',
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
+  entry: {
+    app: './src/index',
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: path.resolve(__dirname, "node_modules"),
-        loader: "babel-loader",
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
         options: {
-          plugins: ["react-refresh/babel"],
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                targets: { browsers: ['last 2 chrome versions'] },
+                debug: true,
+              },
+            ],
+            '@babel/preset-react',
+          ],
+          plugins: ['react-refresh/babel'],
         },
+        exclude: path.join(__dirname, 'node_modules'),
       },
     ],
   },
-
-  plugins: [
-    new HtmlwebpackPlugin({
-      template: "./public/index.html",
-    }),
-    new RefreshWebpackPlugin(),
-  ],
-
+  plugins: [new ReactRefreshWebpackPlugin()],
   output: {
-    path: path.join(__dirname, "dist"),
-    filename: "bundle.js",
+    path: path.join(__dirname, 'dist'),
+    filename: 'bundle.js',
+    publicPath: '/dist',
   },
   devServer: {
     hot: true,
