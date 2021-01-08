@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Main = () => (
-  <>
-    <h1>Main</h1>
-  </>
-);
+const Main = () => {
+  const [state, setstate] = useState('');
+  return (
+    <>
+      <h1>Main</h1>
+    </>
+  );
+};
 export default Main;

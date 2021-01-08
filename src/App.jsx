@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import Menu from './Components/Menu';
+import Menu from './Components/MenuLayout';
 import Main from './Pages/main';
 import FreeBoard from './Pages/freeboard';
 import FeedBoard from './Pages/feedboard';
@@ -12,12 +12,11 @@ const App = () => (
   <>
     <Router>
       <Menu />
-      <Switch>
-        <Route path="/" component={Main} />
-        <Route path="/freeboard" component={FreeBoard} />
-        <Route path="/feedboard" component={FeedBoard} />
-        <Route path="/study" component={Study} />
-      </Switch>
+
+      <Route exact path="/" component={Main} />
+      <Route path="/freeboard" component={FreeBoard} />
+      <Route path="/feedboard" component={FeedBoard} />
+      <Route path="/study" component={Study} />
     </Router>
   </>
 );

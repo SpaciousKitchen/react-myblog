@@ -71,7 +71,7 @@ const Menu = () => {
       <div className={classes.sideBar}>
         <MenuList>
           <MenuItem
-            onClick={() => console.log('clickMenu')}
+            onClick={() => history.push('/')}
             style={{ marginTop: '120px' }}
           >
             <ListItemIcon>
@@ -81,7 +81,7 @@ const Menu = () => {
 
           <MenuItem
             onClick={() => {
-              history.push('/feedboard');
+              history.push('/freeboard');
             }}
           >
             {/* <Link to="/freeboard">자유게시판</Link> */}
