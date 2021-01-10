@@ -1,0 +1,55 @@
+{
+  "name": "react-myblog",
+  "version": "1.0.0",
+  "description": "> 프론트엔트 : React, React-Redux > 백엔드 : Node.js express",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack serve --env development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/songrammer/react-myblog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/songrammer/react-myblog/issues"
+  },
+  "homepage": "https://github.com/songrammer/react-myblog#readme",
+  "dependencies": {
+    "@material-ui/core": "4.11.2",
+    "@material-ui/icons": "4.11.2",
+    "prop-types": "15.7.2",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "react-redux": "7.2.2",
+    "react-router": "5.2.0",
+    "react-router-dom": "5.2.0",
+    "redux": "4.0.5",
+    "redux-actions": "2.6.5",
+    "redux-devtools-extension": "2.13.8",
+    "styled-components": "5.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.12.10",
+    "@babel/preset-env": "7.12.11",
+    "@babel/preset-react": "7.12.10",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
+    "babel-loader": "8.2.2",
+    "eslint": "7.17.0",
+    "eslint-config-airbnb": "18.2.1",
+    "eslint-config-prettier": "7.1.0",
+    "eslint-plugin-html": "6.1.1",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-prettier": "3.3.1",
+    "eslint-plugin-react": "7.22.0",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "html-webpack-plugin": "4.5.1",
+    "prettier": "2.2.1",
+    "react-refresh": "0.9.0",
+    "webpack": "5.12.1",
+    "webpack-cli": "4.3.1",
+    "webpack-dev-server": "3.11.1"
+  }
+}
