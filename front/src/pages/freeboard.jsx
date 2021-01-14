@@ -1,11 +1,14 @@
 import React from 'react';
+
 import AppLayout from '../Components/AppLayout';
+import FreePosts from '../components/FreePosts';
 
 const FreeBoard = () => (
   <>
     <AppLayout>
-      <h1>FreeBoard</h1>
+      <FreePosts />
     </AppLayout>
   </>
 );
+
 export default FreeBoard;
