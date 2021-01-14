@@ -1,11 +1,11 @@
 import React from 'react';
-import MenuLayout from '../Components/MenuLayout';
+import AppLayout from '../Components/AppLayout';
 // eslint-disable-next-line arrow-body-style
 const FeedBoard = () => (
   <>
-    <MenuLayout>
+    <AppLayout>
       <h1>FeedBoard</h1>
-    </MenuLayout>
+    </AppLayout>
   </>
 );
 export default FeedBoard;

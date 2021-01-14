@@ -1,11 +1,11 @@
 import React from 'react';
-import MenuLayout from '../Components/MenuLayout';
+import AppLayout from '../Components/AppLayout';
 
 const FreeBoard = () => (
   <>
-    <MenuLayout>
+    <AppLayout>
       <h1>FreeBoard</h1>
-    </MenuLayout>
+    </AppLayout>
   </>
 );
 export default FreeBoard;

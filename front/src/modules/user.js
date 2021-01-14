@@ -1,4 +1,5 @@
 import { REQUESET_LOGIN, SUCCESS_LOGIN, FAIL_LOGIN } from './actions';
+
 const init = {
   user: 'songsong',
   requesetLogin: false,

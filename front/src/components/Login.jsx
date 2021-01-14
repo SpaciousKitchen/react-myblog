@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import FacebookIcon from '@material-ui/icons/Facebook';
 import { ButtonGroup } from '@material-ui/core';
-import {useSelector,useDispatch}from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import {REQUESET_LOGIN} from '../modules/actions.js';
+import { REQUESET_LOGIN } from '../modules/actions.js';
+
 const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -29,13 +30,10 @@ const ContainLogin = styled.div`
 `;
 
 const Login = () => {
-
-  const {user} = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const onClickNaverLogin=()=>{
-    dispatch({type:REQUESET_LOGIN,})
-
-  }
+  const onClickNaverLogin = () => {
+    dispatch({ type: REQUESET_LOGIN });
+  };
 
   return (
     <>

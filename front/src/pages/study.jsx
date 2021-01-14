@@ -1,11 +1,11 @@
 import React from 'react';
-import MenuLayout from '../Components/MenuLayout';
+import AppLayout from '../Components/AppLayout';
 
 const study = () => (
   <>
-    <MenuLayout>
+    <AppLayout>
       <h1>study</h1>
-    </MenuLayout>
+    </AppLayout>
   </>
 );
 export default study;
