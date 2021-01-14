@@ -21,7 +21,12 @@
         "html"  
     ],
     "rules": {
-        "prettier/prettier": "error"
+        "prettier/prettier": "error",
+        "indent": "off" ,
+        "import/extensions":"off",
+        "import/no-unresolved":"off",
+        "jsx-a11y/alt-text":"off",
+        "react/require-default-props":"off"
     }
    
 }
