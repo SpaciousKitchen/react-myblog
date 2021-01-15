@@ -1,4 +1,5 @@
 import faker from 'faker';
+import { REQUEST_ADD_POST, SUCCESS_ADD_POST, FAIL_ADD_POST } from './actions';
 
 const init = {
   posts: [
@@ -10,6 +11,10 @@ const init = {
       views: 500,
     },
   ],
+
+  requestAddPost: false,
+  successAddPost: false,
+  failAddPost: false,
 };
 let start = 21;
 
@@ -25,7 +30,42 @@ while (start) {
 }
 
 function FreeBoardReducer(state = init, action) {
-  switch (action) {
+  switch (action.type) {
+    case REQUEST_ADD_POST: {
+      const { posts } = state;
+      posts.push({
+        id: 3,
+        name: 'songsong',
+        Content: action.data.content,
+        subject: action.data.subject,
+        date: faker.time.past,
+        views: faker.random.number(),
+      });
+
+      return {
+        ...state,
+        requestAddPost: true,
+        successAddPost: false,
+        failAddPost: false,
+        posts,
+      };
+    }
+
+    case SUCCESS_ADD_POST:
+      return {
+        ...state,
+        requestAddPost: false,
+        successAddPost: true,
+        failAddPost: false,
+      };
+    case FAIL_ADD_POST:
+      return {
+        ...state,
+        requestAddPost: false,
+        successAddPost: true,
+        failAddPost: false,
+      };
+
     default:
       return state;
   }

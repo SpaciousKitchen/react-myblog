@@ -5,7 +5,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import { ButtonGroup } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 
-import { REQUESET_LOGIN } from '../modules/actions.js';
+import { REQUEST_LOGIN } from '../modules/actions.js';
 
 const Overlay = styled.div`
   position: fixed;
@@ -32,7 +32,7 @@ const ContainLogin = styled.div`
 const Login = () => {
   const dispatch = useDispatch();
   const onClickNaverLogin = () => {
-    dispatch({ type: REQUESET_LOGIN });
+    dispatch({ type: REQUEST_LOGIN });
   };
 
   return (

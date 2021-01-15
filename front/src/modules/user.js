@@ -1,29 +1,29 @@
-import { REQUESET_LOGIN, SUCCESS_LOGIN, FAIL_LOGIN } from './actions';
+import { REQUEST_LOGIN, SUCCESS_LOGIN, FAIL_LOGIN } from './actions';
 
 const init = {
   user: 'songsong',
-  requesetLogin: false,
+  requestLogin: false,
   successLogin: false,
   failLogin: false,
 };
 
 function userReducers(state = init, action) {
   switch (action) {
-    case REQUESET_LOGIN:
+    case REQUEST_LOGIN:
       return {
-        requesetLogin: true,
+        requestLogin: true,
         successLogin: false,
         failLogin: false,
       };
     case SUCCESS_LOGIN:
       return {
-        requesetLogin: false,
+        requestLogin: false,
         successLogin: true,
         failLogin: false,
       };
     case FAIL_LOGIN:
       return {
-        requesetLogin: false,
+        requestLogin: false,
         successLogin: false,
         failLogin: true,
       };

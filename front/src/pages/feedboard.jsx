@@ -1,6 +1,6 @@
 import React from 'react';
 import AppLayout from '../Components/AppLayout';
-// eslint-disable-next-line arrow-body-style
+
 const FeedBoard = () => (
   <>
     <AppLayout>

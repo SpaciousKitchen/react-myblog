@@ -1,3 +1,7 @@
-export const REQUESET_LOGIN = 'REQUESET_LOGIN';
+export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const SUCCESS_LOGIN = 'SUCCESS_LOGIN';
 export const FAIL_LOGIN = 'FAIL_LOGIN';
+
+export const REQUEST_ADD_POST = 'REQUEST_ADD_POST';
+export const SUCCESS_ADD_POST = 'SUCCESS_ADD_POST';
+export const FAIL_ADD_POST = 'FAIL_ADD_POST';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSelector } from 'react-redux';
 
@@ -10,6 +10,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import Button from '@material-ui/core/Button';
+import CreateIcon from '@material-ui/icons/Create';
+import { useHistory } from 'react-router-dom';
 
 const columns = [
   { label: 'Number', minWidth: 100 },
@@ -42,15 +45,10 @@ const useStyles = makeStyles({
 
 const FreePosts = () => {
   const classes = useStyles();
+  const history = useHistory();
   const { posts } = useSelector((state) => state.freeboard);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  useEffect(() => {
-    console.log(
-      posts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    );
-  }, [page, rowsPerPage]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -60,6 +58,7 @@ const FreePosts = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   return (
     <>
       <Paper className={classes.root}>
@@ -104,6 +103,14 @@ const FreePosts = () => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
+
+      <Button
+        style={{ float: 'right' }}
+        startIcon={<CreateIcon />}
+        onClick={() => history.push('/write')}
+      >
+        글쓰기
+      </Button>
     </>
   );
 };
