@@ -17,7 +17,11 @@ const AppLayout = ({ children }) => {
           <Grid direction="column" spacing={1} xs={12}>
             <Grid item style={{ height: '50px' }}>
               <Header setLoginVisible={setLoginVisible} />
-              {loginVisible ? <Login /> : <> </>}
+              {loginVisible ? (
+                <Login setLoginVisible={setLoginVisible} />
+              ) : (
+                <> </>
+              )}
             </Grid>
             <Grid item>{children}</Grid>
           </Grid>
