@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
 import { useDispatch } from 'react-redux';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
-
-import styled from 'styled-components';
 import AppLayout from '../Components/AppLayout';
-
 import { REQUEST_ADD_POST } from '../modules/actions.js';
+import {
+  GlobalStyle,
+  InputStyled,
+  ButtonSstyled,
+  WriteContainer,
+} from '../Styles/style.js';
 
-const WriteContainer = styled.div`
-  border: 1px solid #f1f1f1;
-  padding: 10px;
-`;
 const WriteFreeBoard = () => {
   const [editorState, seteditorState] = useState(EditorState.createEmpty());
   const [subjectState, setSubjectState] = useState('');
@@ -25,26 +23,34 @@ const WriteFreeBoard = () => {
     seteditorState(edit);
   };
   const onClickSubmit = () => {
+    const editTextHtml = convertToHTML(editorState.getCurrentContent());
+    if (!subjectState.trim()) {
+      alert('제목을 입력하세요!');
+      return;
+    }
+
     dispatch({
       type: REQUEST_ADD_POST,
       data: {
-        content: convertToHTML(editorState.getCurrentContent()),
+        content: editTextHtml,
         subject: subjectState,
       },
     });
   };
+
   const onChangeSubject = (e) => {
     setSubjectState(e.target.value);
   };
-
   return (
     <>
       <AppLayout>
-        <div style={{ padding: '20px' }}>
-          <input
-            style={{ border: '1px solid #f1f1f1' }}
+        <GlobalStyle />
+        <div style={{ padding: '50px' }}>
+          <InputStyled
             value={subjectState}
             onChange={onChangeSubject}
+            placeholder="제목을 입력하세요"
+            maxLength="30"
           />
 
           <WriteContainer>
@@ -57,7 +63,7 @@ const WriteFreeBoard = () => {
             />
           </WriteContainer>
 
-          <Button onClick={onClickSubmit}>제출</Button>
+          <ButtonSstyled onClick={onClickSubmit}>제출</ButtonSstyled>
         </div>
       </AppLayout>
     </>

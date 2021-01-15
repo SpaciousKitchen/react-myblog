@@ -1,11 +1,8 @@
 import React from 'react';
-
 import { Provider } from 'react-redux';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-
 import { createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-
 import Main from './Pages/main';
 import FreeBoard from './Pages/freeboard';
 import FeedBoard from './Pages/feedboard';
