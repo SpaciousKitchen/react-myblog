@@ -20,7 +20,7 @@ const AppLayout = ({ children }) => {
               {loginVisible ? (
                 <Login setLoginVisible={setLoginVisible} />
               ) : (
-                <> </>
+                <></>
               )}
             </Grid>
             <Grid item>{children}</Grid>
