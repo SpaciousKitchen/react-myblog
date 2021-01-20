@@ -1,5 +1,42 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
+export const PopoverStyle = styled.div`
+  z-index: 5000;
+  position: absolute;
+  width: 250px;
+  top: 25px;
+  right: 10px;
+  height: 200px;
+  background: #cccccccc;
+  display: flex;
+  flex-direction: column;
+`;
+export const ProfileImageStyle = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 70%;
+  overflow: hidden;
+`;
+
+export const AccountEmailStyle = styled.span`
+  margin-top: 2%;
+  margin-left: 24%;
+  font-size: 2px;
+  color: rgba(0, 0, 0, 0.54);
+`;
+export const LogoutButtonStyle = styled.button`
+  margin-top: 10%;
+  border: none;
+  line-height: 40px;
+  color: rgba(0, 0, 0, 0.54);
+`;
+
+export const ImgStyle = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
 export const GlobalStyle = createGlobalStyle`
 .editor-class{
   height:500px;

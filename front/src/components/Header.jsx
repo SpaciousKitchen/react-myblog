@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import { makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import Logout from './Logout';
+import UserProfile from './UserProfile';
 
 const useStyles = makeStyles(() => ({
   loginbutton: {
@@ -40,7 +40,7 @@ const Header = ({ setLoginVisible }) => {
           로그인
         </Button>
       ) : (
-        <Logout />
+        <UserProfile />
       )}
     </>
   );

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { ButtonGroup } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
-import * as config from './config';
+import * as config from '../../config';
 
 import {
   REQUEST_GOOGLE_LOGIN,
@@ -47,14 +47,20 @@ const Login = ({ setLoginVisible }) => {
     Kakao.Auth.login({
       success(authObj) {
         Kakao.Auth.setAccessToken(authObj.access_token);
-
         Kakao.API.request({
           url: '/v2/user/me',
           success(response) {
             console.log(response);
             dispatch({
               type: REQUEST_KAKAO_LOGIN,
-              data: { id: response.id, name: response.properties.nickname },
+              data: {
+                id: response.id,
+                name: response.properties.nickname,
+                email: response.kakao_account.email,
+                img: response.properties.thumbnail_image,
+                logoUrl: '../../public/kakaotalk_logo.png',
+                option: 'KAKAO',
+              },
             });
             setLoginVisible((pre) => !pre);
           },
@@ -70,9 +76,18 @@ const Login = ({ setLoginVisible }) => {
   };
 
   const responseGoogle = (response) => {
+    setLoginVisible(false);
+    console.log(response);
     dispatch({
       type: REQUEST_GOOGLE_LOGIN,
-      data: { id: response.googleId, name: response.profileObj.name },
+      data: {
+        id: response.googleId,
+        name: response.profileObj.name,
+        img: response.profileObj.imageUrl,
+        email: response.profileObj.email,
+        logoUrl: '../../public/google_lo.png',
+        option: 'GOOGLE',
+      },
     });
   };
 

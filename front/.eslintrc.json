@@ -28,7 +28,9 @@
         "jsx-a11y/alt-text":"off",
         "react/require-default-props":"off",
         "no-undef":"off",
-        "react/prop-types": "off"
+        "jsx-a11y/click-events-have-key-events":"off",
+        "react/prop-types": "off",
+        "jsx-a11y/no-static-element-interactions":"off"
     }
    
 }

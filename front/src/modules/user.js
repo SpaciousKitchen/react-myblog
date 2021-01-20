@@ -43,6 +43,9 @@ function userReducers(state = init, action) {
         userInfo: {
           id: action.data.id,
           name: action.data.name,
+          img: action.data.img,
+          eamil: action.data.email,
+          logoUrl: action.data.logoUrl,
           option: action.data.option,
         },
       };
