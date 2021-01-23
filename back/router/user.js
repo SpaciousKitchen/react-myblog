@@ -7,11 +7,11 @@ router.post("/login", async (req, res) => {
   console.log(req.body);
 
   const findResult = await User.findOne({
-    where: { googleId: req.body.googleId },
+    where: { loginId: req.body.loginId },
   });
   if (!findResult) {
     const createResult = await User.create({
-      googleId: req.body.googleId,
+      loginId: req.body.loginId,
       name: req.body.name,
       email: req.body.email,
       img: req.body.img,

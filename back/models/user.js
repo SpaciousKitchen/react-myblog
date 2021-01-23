@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
     "user",
     {
-      googleId: {
+      loginId: {
         type: DataTypes.STRING,
         allowNull: false,
       },
