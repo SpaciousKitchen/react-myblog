@@ -24,8 +24,6 @@ const useStyles = makeStyles(() => ({
 const Header = ({ setLoginVisible }) => {
   const classes = useStyles();
   const { userInfo } = useSelector((state) => state.user);
-  console.log(userInfo);
-
   return (
     <>
       {userInfo == null ? (

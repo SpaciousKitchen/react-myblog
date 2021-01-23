@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
 import PropTypes from 'prop-types';
 import { ButtonGroup } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
+import { useDispatch, useSelector } from 'react-redux';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import axios from 'axios';
 import * as config from '../../config';
 
 import {
+  FAIL_KAKAO_LOGIN,
   REQUEST_GOOGLE_LOGIN,
   REQUEST_KAKAO_LOGIN,
+  SUCCESS_KAKAO_LOGIN,
 } from '../modules/actions.js';
+
+axios.defaults.baseURL = 'http://localhost:3000/';
 
 const Overlay = styled.div`
   position: fixed;
@@ -35,13 +41,35 @@ const ContainLogin = styled.div`
   flex-direction: column;
 `;
 const Login = ({ setLoginVisible }) => {
+  const [loginData, setLogtinData] = useState('');
+
   const dispatch = useDispatch();
+  const { requestLogin } = useSelector((state) => state.user);
+  useEffect(() => {
+    if (requestLogin) {
+      axios
+        .post('/user/login', loginData)
+        .then((res) => {
+          console.log(res);
+          dispatch({
+            type: SUCCESS_KAKAO_LOGIN,
+            data: res.data,
+          });
+          setLoginVisible((pre) => !pre);
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch({
+            type: FAIL_KAKAO_LOGIN,
+            data: error,
+          });
+        });
+    }
+  }, [requestLogin]);
 
-  const onClickNaverLogin = () => {
-    // dispatch({ type: });
-  };
+  const onClickNaverLogin = () => {};
 
-  const onClickKAKAOLogin = async () => {
+  const onClickKaKaoLogin = async () => {
     Kakao.init(config.REACT_APP_KAKAO_CLIENT_ID);
     Kakao.isInitialized();
     Kakao.Auth.login({
@@ -50,19 +78,17 @@ const Login = ({ setLoginVisible }) => {
         Kakao.API.request({
           url: '/v2/user/me',
           success(response) {
-            console.log(response);
+            setLogtinData({
+              loginId: response.id,
+              name: response.properties.nickname,
+              email: response.kakao_account.email,
+              img: response.properties.thumbnail_image,
+              logoUrl: '../../public/kakaotalk_logo.png',
+              option: 'KAKAO',
+            });
             dispatch({
               type: REQUEST_KAKAO_LOGIN,
-              data: {
-                id: response.id,
-                name: response.properties.nickname,
-                email: response.kakao_account.email,
-                img: response.properties.thumbnail_image,
-                logoUrl: '../../public/kakaotalk_logo.png',
-                option: 'KAKAO',
-              },
             });
-            setLoginVisible((pre) => !pre);
           },
           fail(error) {
             console.log(error);
@@ -75,19 +101,18 @@ const Login = ({ setLoginVisible }) => {
     });
   };
 
-  const responseGoogle = (response) => {
-    setLoginVisible(false);
+  const onClickGoogleLogin = (response) => {
     console.log(response);
+    setLogtinData({
+      loginId: response.googleId,
+      name: response.profileObj.name,
+      img: response.profileObj.imageUrl,
+      email: response.profileObj.email,
+      logoUrl: '../../public/google_lo.png',
+      option: 'GOOGLE',
+    });
     dispatch({
       type: REQUEST_GOOGLE_LOGIN,
-      data: {
-        id: response.googleId,
-        name: response.profileObj.name,
-        img: response.profileObj.imageUrl,
-        email: response.profileObj.email,
-        logoUrl: '../../public/google_lo.png',
-        option: 'GOOGLE',
-      },
     });
   };
 
@@ -110,8 +135,8 @@ const Login = ({ setLoginVisible }) => {
             </Button>
             <br />
             <Button
-              KakaoLogin
-              onClick={onClickKAKAOLogin}
+              KaKaoLogin
+              onClick={onClickKaKaoLogin}
               style={{ background: '#F7E600', border: 'none' }}
               startIcon={<img src="../../public/kakaotalk_logo.png" />}
             >
@@ -129,8 +154,8 @@ const Login = ({ setLoginVisible }) => {
                 </Button>
               )}
               buttonText="Login"
-              onSuccess={responseGoogle}
-              onFailure={responseGoogle}
+              onSuccess={onClickGoogleLogin}
+              onFailure={onClickGoogleLogin}
               cookiePolicy="single_host_origin"
             />
             ,
