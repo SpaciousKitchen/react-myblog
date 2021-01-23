@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+
 import Button from '@material-ui/core/Button';
 
 import PropTypes from 'prop-types';
 import { ButtonGroup } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import axios from 'axios';
 import * as config from '../../config';
 
@@ -17,29 +17,8 @@ import {
   SUCCESS_KAKAO_LOGIN,
 } from '../modules/actions.js';
 
-axios.defaults.baseURL = 'http://localhost:3000/';
+import { Overlay, ContainLogin } from '../Styles/style';
 
-const Overlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 5;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-const ContainLogin = styled.div`
-  padding: 20px;
-  background: #ffffffff;
-  display: flex;
-  flex: 0.5;
-  height: 500px;
-  border-radius: 0.28571429rem;
-  flex-direction: column;
-`;
 const Login = ({ setLoginVisible }) => {
   const [loginData, setLogtinData] = useState('');
 

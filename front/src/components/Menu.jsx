@@ -3,22 +3,14 @@ import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
+import MenuRoundedIcon from '@material-ui/icons/MenuRoundedIcon';
 import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded';
 import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import IconButton from '@material-ui/core/IconButton';
-import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
-import { makeStyles } from '@material-ui/core';
-import { useHistory } from 'react-router-dom';
 
-const useStyles = makeStyles(() => ({
-  sideBar: {
-    position: 'absolute',
-    width: '55px',
-    height: '100%',
-    backgroundColor: '#CCCCCCCC',
-  },
-}));
+import { useHistory } from 'react-router-dom';
+import { useStyles } from '../Styles/style';
 
 const Menu = () => {
   const classes = useStyles();

@@ -2,24 +2,11 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import PropTypes from 'prop-types';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
-import { makeStyles } from '@material-ui/core';
+
 import { useSelector } from 'react-redux';
 import UserProfile from './UserProfile';
 
-const useStyles = makeStyles(() => ({
-  loginbutton: {
-    float: 'right',
-    marginTop: '5px',
-    marginRight: '20px',
-    background: '#ffffffff',
-    color: 'rgba(0, 0, 0, 0.26)',
-    boxShadow: 'none',
-  },
-  span: {
-    color: 'rgba(0, 0, 0, 0.54);',
-    fontSize: '14px',
-  },
-}));
+import { useStyles } from '../Styles/style';
 
 const Header = ({ setLoginVisible }) => {
   const classes = useStyles();

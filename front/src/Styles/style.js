@@ -1,4 +1,26 @@
 import styled, { createGlobalStyle } from 'styled-components';
+import { makeStyles } from '@material-ui/core';
+
+export const useStyles = makeStyles(() => ({
+  loginbutton: {
+    float: 'right',
+    marginTop: '5px',
+    marginRight: '20px',
+    background: '#ffffffff',
+    color: 'rgba(0, 0, 0, 0.26)',
+    boxShadow: 'none',
+  },
+  span: {
+    color: 'rgba(0, 0, 0, 0.54);',
+    fontSize: '14px',
+  },
+  sideBar: {
+    position: 'absolute',
+    width: '55px',
+    height: '100%',
+    backgroundColor: '#CCCCCCCC',
+  },
+}));
 
 export const PopoverStyle = styled.div`
   z-index: 5000;
@@ -76,4 +98,25 @@ export const ButtonSstyled = styled.button`
 
   border-radius: 4px;
   padding: 0px 1.25rem;
+`;
+export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+export const ContainLogin = styled.div`
+  padding: 20px;
+  background: #ffffffff;
+  display: flex;
+  flex: 0.5;
+  height: 500px;
+  border-radius: 0.28571429rem;
+  flex-direction: column;
 `;
