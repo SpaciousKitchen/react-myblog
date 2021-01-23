@@ -4,6 +4,10 @@ module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
     "user",
     {
+      googleId: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -12,10 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+
       img: {
         type: DataTypes.STRING,
         allowNull: true,
