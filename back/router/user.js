@@ -1,9 +1,9 @@
-const express = require("express");
-const { User } = require("../models");
+const express = require('express');
+const { User } = require('../models');
 router = express.Router();
 
-router.post("/login", async (req, res) => {
-  console.log("login");
+router.post('/login', async (req, res) => {
+  console.log('login');
   console.log(req.body);
 
   const findResult = await User.findOne({
