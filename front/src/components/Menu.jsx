@@ -2,8 +2,9 @@ import React from 'react';
 import MenuList from '@material-ui/core/MenuList';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
-import MenuRoundedIcon from '@material-ui/icons/MenuRoundedIcon';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import MenuIcon from '@material-ui/icons/Menu';
+
 import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded';
 import SupervisorAccountRoundedIcon from '@material-ui/icons/SupervisorAccountRounded';
 import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
@@ -19,7 +20,7 @@ const Menu = () => {
     <>
       <div className={classes.sideBar}>
         <IconButton style={{ marginRight: '20px' }}>
-          <MenuRoundedIcon />
+          <MenuIcon />
         </IconButton>
         <MenuList>
           <MenuItem
@@ -46,7 +47,7 @@ const Menu = () => {
           </MenuItem>
           <MenuItem onClick={() => history.push('/study')}>
             <ListItemIcon>
-              <MenuBookRoundedIcon fontSize="big" />
+              <MenuBookIcon fontSize="big" />
             </ListItemIcon>
           </MenuItem>
         </MenuList>

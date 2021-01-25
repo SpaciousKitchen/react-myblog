@@ -4,6 +4,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { EditorState } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
+import { useHistory } from 'react-router-dom';
 import AppLayout from '../Components/AppLayout';
 import { REQUEST_ADD_POST } from '../modules/actions.js';
 import {
@@ -16,8 +17,8 @@ import {
 const WriteFreeBoard = () => {
   const [editorState, seteditorState] = useState(EditorState.createEmpty());
   const [subjectState, setSubjectState] = useState('');
-
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const onEditorStateChange = (edit) => {
     seteditorState(edit);
@@ -36,6 +37,7 @@ const WriteFreeBoard = () => {
         subject: subjectState,
       },
     });
+    history.push('/freeboard');
   };
 
   const onChangeSubject = (e) => {

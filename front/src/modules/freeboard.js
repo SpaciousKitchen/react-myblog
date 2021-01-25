@@ -33,8 +33,8 @@ function FreeBoardReducer(state = init, action) {
   switch (action.type) {
     case REQUEST_ADD_POST: {
       const { posts } = state;
-      posts.push({
-        id: 3,
+      posts.unshift({
+        id: posts.length,
         name: 'songsong',
         Content: action.data.content,
         subject: action.data.subject,

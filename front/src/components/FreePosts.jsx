@@ -58,6 +58,10 @@ const FreePosts = () => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+  const onClickPost = (id) => {
+    console.log(id);
+    history.push(`/freecontent/${id}`);
+  };
 
   return (
     <>
@@ -82,6 +86,9 @@ const FreePosts = () => {
                     role="checkbox"
                     tabIndex={-1}
                     key={element.id}
+                    onClick={() => {
+                      onClickPost(element.id);
+                    }}
                   >
                     <TableCell>{index}</TableCell>
                     <TableCell>{element.subject}</TableCell>

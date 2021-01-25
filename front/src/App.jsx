@@ -9,6 +9,8 @@ import FreeBoard from './Pages/freeboard';
 import FeedBoard from './Pages/feedboard';
 import Study from './Pages/study';
 import WriteFreeBoard from './pages/writeFreeBoard';
+import PostPage from './pages/postpage';
+
 import rootReducer from './modules';
 
 axios.defaults.baseURL = 'http://localhost:3000/';
@@ -20,6 +22,7 @@ const App = () => (
       <Router>
         <Route exact path="/" component={Main} />
         <Route path="/freeboard" component={FreeBoard} />
+        <Route path="/freecontent/:id" component={PostPage} />
         <Route path="/feedboard" component={FeedBoard} />
         <Route path="/study" component={Study} />
         <Route path="/write" component={WriteFreeBoard} />
