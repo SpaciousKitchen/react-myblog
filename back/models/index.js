@@ -1,8 +1,8 @@
-"use strict";
-require("dotenv").config();
-const Sequelize = require("sequelize");
+'use strict';
+require('dotenv').config();
+const Sequelize = require('sequelize');
 
-const env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV || 'development';
 const config = require(`${__dirname}/../config/config.js`)[env];
 const db = {};
 
@@ -16,9 +16,9 @@ if (config.use_env_variable) {
   });
 }
 
-db.User = require("./user")(sequelize, Sequelize);
-db.FreePost = require("./freepost")(sequelize, Sequelize);
-db.FreeComment = require("./freecomment")(sequelize, Sequelize);
+db.User = require('./user')(sequelize, Sequelize);
+db.FreePost = require('./freepost')(sequelize, Sequelize);
+db.FreeComment = require('./freecomment')(sequelize, Sequelize);
 
 console.log(process.env[config.use_env_variable]);
 

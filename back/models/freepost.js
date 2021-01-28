@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
-    "freepost",
+    'freepost',
     {
       subject: {
         type: DataTypes.STRING,
@@ -18,6 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       // UserId
       //FreeBoardComment
     },
-    {}
+    {},
   );
 };

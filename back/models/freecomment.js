@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
-    "freecomment",
+    'freecomment',
     {
       content: {
         type: DataTypes.TEXT,
@@ -14,6 +14,6 @@ module.exports = (sequelize, DataTypes) => {
       // UserId
       //FreeBoardPosts
     },
-    {}
+    {},
   );
 };

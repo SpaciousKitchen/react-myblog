@@ -1,8 +1,8 @@
-const { Sequelize, DataTypes } = require("sequelize");
+const { Sequelize, DataTypes } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
-    "user",
+    'user',
     {
       loginId: {
         type: DataTypes.STRING,
@@ -36,6 +36,6 @@ module.exports = (sequelize, DataTypes) => {
       // FeedComments,
       // StrudyComments
     },
-    {}
+    {},
   );
 };
