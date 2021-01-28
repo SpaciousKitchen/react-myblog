@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import axios from 'axios';
 import {
   AccountEmailStyle,
   ImgStyle,
@@ -9,39 +7,19 @@ import {
   ProfileImageStyle,
   LogoutButtonStyle,
 } from '../Styles/style';
-import {
-  REQUEST_GOOGLE_LOGOUT,
-  REQUEST_KAKAO_LOGOUT,
-  SUCCESS_GOOGLE_LOGOUT,
-  FAIL_GOOGLE_LOGOUT,
-} from '../modules/actions.js';
+import { REQUEST_LOGOUT } from '../modules/actions.js';
 
 const ShowUserProfile = () => {
   const dispatch = useDispatch();
-  const { userInfo, requestLogout } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    if (requestLogout) {
-      axios
-        .post('/user/logout')
-        .then(() => {
-          dispatch({ type: SUCCESS_GOOGLE_LOGOUT });
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch({ type: FAIL_GOOGLE_LOGOUT });
-        });
-    }
-  }, [requestLogout]);
+  const { userInfo } = useSelector((state) => state.user);
 
   const onClickLogout = () => {
     switch (userInfo.option) {
       case 'KAKAO': {
         Kakao.API.request({
           url: '/v1/user/unlink',
-          success(response) {
-            console.log(response);
-            dispatch({ type: REQUEST_KAKAO_LOGOUT });
+          success() {
+            return dispatch({ type: REQUEST_LOGOUT });
           },
           fail(error) {
             console.log(error);
@@ -52,10 +30,7 @@ const ShowUserProfile = () => {
 
       case 'GOOGLE': {
         const auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(() => {
-          console.log('User signed out.');
-          dispatch({ type: REQUEST_GOOGLE_LOGOUT });
-        });
+        auth2.signOut().then(() => dispatch({ type: REQUEST_LOGOUT }));
         break;
       }
       case 'NAVER':

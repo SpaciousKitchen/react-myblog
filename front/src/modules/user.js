@@ -8,15 +8,9 @@ import {
   REQUEST_NAVER_LOGIN,
   SUCCESS_NAVER_LOGIN,
   FAIL_NAVER_LOGIN,
-  REQUEST_GOOGLE_LOGOUT,
-  SUCCESS_GOOGLE_LOGOUT,
-  FAIL_GOOGLE_LOGOUT,
-  REQUEST_KAKAO_LOGOUT,
-  SUCCESS_KAKAO_LOGOUT,
-  FAIL_KAKAO_LOGOUT,
-  REQUEST_NAVER_LOGOUT,
-  SUCCESS_NAVER_LOGOUT,
-  FAIL_NAVER_LOGOUT,
+  REQUEST_LOGOUT,
+  SUCCESS_LOGOUT,
+  FAIL_LOGOUT,
 } from './actions';
 
 const init = {
@@ -67,18 +61,14 @@ function userReducers(state = init, action) {
         failLogin: true,
       };
 
-    case REQUEST_GOOGLE_LOGOUT:
-    case REQUEST_NAVER_LOGOUT:
-    case REQUEST_KAKAO_LOGOUT:
+    case REQUEST_LOGOUT:
       return {
         ...state,
         requestLogout: true,
         successLogout: false,
         failLogout: false,
       };
-    case SUCCESS_GOOGLE_LOGOUT:
-    case SUCCESS_KAKAO_LOGOUT:
-    case SUCCESS_NAVER_LOGOUT:
+    case SUCCESS_LOGOUT:
       return {
         ...state,
         requestLogout: false,
@@ -86,9 +76,7 @@ function userReducers(state = init, action) {
         failLogout: false,
         userInfo: null,
       };
-    case FAIL_GOOGLE_LOGOUT:
-    case FAIL_KAKAO_LOGOUT:
-    case FAIL_NAVER_LOGOUT:
+    case FAIL_LOGOUT:
       return {
         ...state,
         requestLogout: false,
