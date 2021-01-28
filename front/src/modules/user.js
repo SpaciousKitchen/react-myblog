@@ -44,6 +44,7 @@ function userReducers(state = init, action) {
     case SUCCESS_KAKAO_LOGIN:
     case SUCCESS_NAVER_LOGIN:
       return {
+        ...state,
         requestLogin: false,
         successLogin: true,
         failLogin: false,
@@ -60,6 +61,7 @@ function userReducers(state = init, action) {
     case FAIL_KAKAO_LOGIN:
     case FAIL_NAVER_LOGIN:
       return {
+        ...state,
         requestLogin: false,
         successLogin: false,
         failLogin: true,
@@ -68,26 +70,27 @@ function userReducers(state = init, action) {
     case REQUEST_GOOGLE_LOGOUT:
     case REQUEST_NAVER_LOGOUT:
     case REQUEST_KAKAO_LOGOUT:
-      console.log(action.option);
       return {
         ...state,
         requestLogout: true,
         successLogout: false,
         failLogout: false,
-        userInfo: null,
       };
     case SUCCESS_GOOGLE_LOGOUT:
     case SUCCESS_KAKAO_LOGOUT:
     case SUCCESS_NAVER_LOGOUT:
       return {
+        ...state,
         requestLogout: false,
         successLogout: true,
         failLogout: false,
+        userInfo: null,
       };
     case FAIL_GOOGLE_LOGOUT:
     case FAIL_KAKAO_LOGOUT:
     case FAIL_NAVER_LOGOUT:
       return {
+        ...state,
         requestLogout: false,
         successLogout: false,
         failLogout: true,

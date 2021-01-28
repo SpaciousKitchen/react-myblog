@@ -14,6 +14,7 @@ import PostPage from './pages/postpage';
 import rootReducer from './modules';
 
 axios.defaults.baseURL = 'http://localhost:3000/';
+axios.defaults.withCredentials = true;
 
 const store = createStore(rootReducer, composeWithDevTools()); // composeWithDevTools()데브 툴스와 연결
 const App = () => (

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import axios from 'axios';
 import {
   AccountEmailStyle,
   ImgStyle,
@@ -11,11 +12,27 @@ import {
 import {
   REQUEST_GOOGLE_LOGOUT,
   REQUEST_KAKAO_LOGOUT,
+  SUCCESS_GOOGLE_LOGOUT,
+  FAIL_GOOGLE_LOGOUT,
 } from '../modules/actions.js';
 
 const ShowUserProfile = () => {
   const dispatch = useDispatch();
-  const { userInfo } = useSelector((state) => state.user);
+  const { userInfo, requestLogout } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (requestLogout) {
+      axios
+        .post('/user/logout')
+        .then(() => {
+          dispatch({ type: SUCCESS_GOOGLE_LOGOUT });
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch({ type: FAIL_GOOGLE_LOGOUT });
+        });
+    }
+  }, [requestLogout]);
 
   const onClickLogout = () => {
     switch (userInfo.option) {
