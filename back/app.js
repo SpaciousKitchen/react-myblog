@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const sequelize = require('./models').sequelize;
 const userRouter = require('./router/user');
+const postRouter = require('./router/post');
 const logger = require('morgan');
 const cors = require('cors');
 const app = express();
@@ -41,6 +42,7 @@ app.use(
 );
 
 app.use('/user', userRouter);
+app.use('/post', postRouter);
 
 app.set('port', 3000);
 
