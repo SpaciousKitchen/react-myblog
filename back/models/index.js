@@ -20,13 +20,11 @@ db.User = require('./user')(sequelize, Sequelize);
 db.FreePost = require('./freepost')(sequelize, Sequelize);
 db.FreeComment = require('./freecomment')(sequelize, Sequelize);
 
-console.log(process.env[config.use_env_variable]);
+db.User.hasMany(db.FreePost);
+db.User.hasMany(db.FreeComment);
 
-// Object.keys(db).forEach((modelName) => {
-//   if (db[modelName].associate) {
-//     db[modelName].associate(db);
-//   }
-// });
+db.FreePost.belongsTo(db.User);
+db.FreeComment.belongsTo(db.User);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
