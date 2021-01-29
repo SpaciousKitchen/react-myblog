@@ -23,7 +23,7 @@ const columns = [
     align: 'right',
   },
   {
-    label: 'Date',
+    label: 'createdAt',
     minWidth: 170,
     align: 'right',
   },
@@ -93,7 +93,7 @@ const FreePosts = () => {
                     <TableCell>{index}</TableCell>
                     <TableCell>{element.subject}</TableCell>
                     <TableCell>{element.name}</TableCell>
-                    <TableCell>{element.date}</TableCell>
+                    <TableCell>{element.createdAt}</TableCell>
                     <TableCell>{element.views}</TableCell>
                   </TableRow>
                 ))}
