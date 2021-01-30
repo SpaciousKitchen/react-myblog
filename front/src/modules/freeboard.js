@@ -1,5 +1,7 @@
 import faker from 'faker';
-import { REQUEST_ADD_POST, SUCCESS_ADD_POST, FAIL_ADD_POST } from './actions';
+
+export const sucessAddPost = createAction('SUCCESS_ADD_POST');
+export const failsAddPost = createAction('FAILS_ADD_POST');
 
 const init = {
   posts: [
@@ -11,11 +13,11 @@ const init = {
       views: 500,
     },
   ],
-
   requestAddPost: false,
   successAddPost: false,
   failAddPost: false,
 };
+
 let start = 21;
 
 while (start) {
@@ -29,20 +31,13 @@ while (start) {
   start -= 1;
 }
 
-function FreeBoardReducer(state = init, action) {
-  switch (action.type) {
-    case REQUEST_ADD_POST: {
-      return {
-        ...state,
-        requestAddPost: true,
-        successAddPost: false,
-        failAddPost: false,
-      };
-    }
-
-    case SUCCESS_ADD_POST: {
-      const { posts } = state;
-      posts.unshift({
+const freeBoardReducer = createReducer(init, (builder) => {
+  builder
+    .addCase(sucessAddPost, (state, action) => {
+      state.requestAddPost = false;
+      state.successAddPost = true;
+      state.failAddPost = false;
+      state.posts.unshift({
         id: posts.length,
         name: 'songsong',
         Content: action.data.content,
@@ -50,25 +45,12 @@ function FreeBoardReducer(state = init, action) {
         createdAt: action.data.createdAt,
         views: action.data.views,
       });
-      return {
-        ...state,
-        requestAddPost: false,
-        successAddPost: true,
-        failAddPost: false,
-        posts,
-      };
-    }
+    })
+    .addCase(failsAddPost, (state) => {
+      state.requestAddPost = false;
+      state.successAddPost = true;
+      state.failAddPost = false;
+    });
+});
 
-    case FAIL_ADD_POST:
-      return {
-        ...state,
-        requestAddPost: false,
-        successAddPost: true,
-        failAddPost: false,
-      };
-
-    default:
-      return state;
-  }
-}
-export default FreeBoardReducer;
+export default freeBoardReducer;
