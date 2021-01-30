@@ -6,8 +6,8 @@ import PropTypes from 'prop-types';
 import { ButtonGroup } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
-
 import axios from 'axios';
+import { sucessLogin } from '../../reducers/user';
 import * as config from '../../config';
 
 import {
@@ -15,7 +15,7 @@ import {
   REQUEST_GOOGLE_LOGIN,
   REQUEST_KAKAO_LOGIN,
   SUCCESS_KAKAO_LOGIN,
-} from '../modules/actions.js';
+} from '../../reducers/actions.js';
 
 import { Overlay, ContainLogin } from '../Styles/style';
 
@@ -46,7 +46,9 @@ const Login = ({ setLoginVisible }) => {
     }
   }, [requestLogin]);
 
-  const onClickNaverLogin = () => {};
+  const onClickNaverLogin = () => {
+    dispatch(sucessLogin());
+  };
 
   const onClickKaKaoLogin = async () => {
     Kakao.init(config.REACT_APP_KAKAO_CLIENT_ID);

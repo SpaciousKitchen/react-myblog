@@ -1,4 +1,5 @@
 import faker from 'faker';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 
 export const sucessAddPost = createAction('SUCCESS_ADD_POST');
 export const failsAddPost = createAction('FAILS_ADD_POST');

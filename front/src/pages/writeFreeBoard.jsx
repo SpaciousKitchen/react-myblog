@@ -11,7 +11,7 @@ import {
   REQUEST_ADD_POST,
   SUCCESS_ADD_POST,
   FAIL_ADD_POST,
-} from '../modules/actions.js';
+} from '../../reducers/actions.js';
 import {
   GlobalStyle,
   InputStyled,

@@ -7,7 +7,7 @@ import {
   ProfileImageStyle,
   LogoutButtonStyle,
 } from '../Styles/style';
-import { REQUEST_LOGOUT } from '../modules/actions.js';
+import { REQUEST_LOGOUT } from '../../reducers/actions.js';
 
 const ShowUserProfile = () => {
   const dispatch = useDispatch();

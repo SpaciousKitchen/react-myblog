@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { ImgStyle, ProfileImageStyle } from '../Styles/style';
 import ShowProfile from './ShowProfile';
-import { SUCCESS_LOGOUT, FAIL_LOGOUT } from '../modules/actions.js';
+import { SUCCESS_LOGOUT, FAIL_LOGOUT } from '../../reducers/actions.js';
 
 const UserProfile = () => {
   const { userInfo, requestLogout } = useSelector((state) => state.user);

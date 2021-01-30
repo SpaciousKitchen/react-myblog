@@ -1,8 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-import { createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import axios from 'axios';
 import Main from './Pages/main';
 import FreeBoard from './Pages/freeboard';
@@ -10,16 +8,14 @@ import FeedBoard from './Pages/feedboard';
 import Study from './Pages/study';
 import WriteFreeBoard from './pages/writeFreeBoard';
 import PostPage from './pages/postpage';
-
-import rootReducer from './modules';
+import configureStore from '../store/configureStore.js';
 
 axios.defaults.baseURL = 'http://localhost:3000/';
 axios.defaults.withCredentials = true;
 
-const store = createStore(rootReducer, composeWithDevTools()); // composeWithDevTools()데브 툴스와 연결
 const App = () => (
   <>
-    <Provider store={store}>
+    <Provider store={configureStore()}>
       <Router>
         <Route exact path="/" component={Main} />
         <Route path="/freeboard" component={FreeBoard} />
