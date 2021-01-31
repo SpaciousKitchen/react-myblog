@@ -1,7 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-import axios from 'axios';
 import Main from './Pages/main';
 import FreeBoard from './Pages/freeboard';
 import FeedBoard from './Pages/feedboard';
@@ -9,9 +8,6 @@ import Study from './Pages/study';
 import WriteFreeBoard from './pages/writeFreeBoard';
 import PostPage from './pages/postpage';
 import configureStore from '../store/configureStore.js';
-
-axios.defaults.baseURL = 'http://localhost:3000/';
-axios.defaults.withCredentials = true;
 
 const App = () => (
   <>

@@ -7,7 +7,8 @@ import {
   ProfileImageStyle,
   LogoutButtonStyle,
 } from '../Styles/style';
-import { REQUEST_LOGOUT } from '../../reducers/actions.js';
+
+import { fetchUserLogout } from '../../reducers/user.js';
 
 const ShowUserProfile = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,8 @@ const ShowUserProfile = () => {
         Kakao.API.request({
           url: '/v1/user/unlink',
           success() {
-            return dispatch({ type: REQUEST_LOGOUT });
+            console.log('click Logout');
+            dispatch(fetchUserLogout());
           },
           fail(error) {
             console.log(error);
@@ -30,7 +32,7 @@ const ShowUserProfile = () => {
 
       case 'GOOGLE': {
         const auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(() => dispatch({ type: REQUEST_LOGOUT }));
+        auth2.signOut().then(() => dispatch(fetchUserLogout()));
         break;
       }
       case 'NAVER':

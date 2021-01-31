@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
 import Button from '@material-ui/core/Button';
 
@@ -7,48 +7,28 @@ import { ButtonGroup } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
 
-import axios from 'axios';
 import { fetchUserLogin } from '../../reducers/user.js';
 import * as config from '../../config';
-
-import {
-  FAIL_KAKAO_LOGIN,
-  REQUEST_GOOGLE_LOGIN,
-  REQUEST_KAKAO_LOGIN,
-  SUCCESS_KAKAO_LOGIN,
-} from '../../reducers/actions.js';
 
 import { Overlay, ContainLogin } from '../Styles/style';
 
 const Login = ({ setLoginVisible }) => {
-  const [loginData, setLogtinData] = useState('');
-
   const dispatch = useDispatch();
-  const { requestLogin } = useSelector((state) => state.user);
+  const { error, done } = useSelector((state) => state.user);
+  console.log(fetchUserLogin.type);
   useEffect(() => {
-    if (requestLogin) {
-      axios
-        .post('/user/login', loginData)
-        .then((res) => {
-          console.log(res);
-          dispatch({
-            type: SUCCESS_KAKAO_LOGIN,
-            data: res.data,
-          });
-          setLoginVisible((pre) => !pre);
-        })
-        .catch((error) => {
-          console.log(error);
-          dispatch({
-            type: FAIL_KAKAO_LOGIN,
-            data: error,
-          });
-        });
+    if (error) {
+      alert(error);
     }
-  }, [requestLogin]);
+  }, [error]);
+
+  useEffect(() => {
+    if (done === 'Loginfulfilled') {
+      setLoginVisible((pre) => !pre);
+    }
+  }, [done]);
 
   const onClickNaverLogin = () => {
-    console.log('click');
     dispatch(fetchUserLogin());
   };
 
@@ -61,20 +41,20 @@ const Login = ({ setLoginVisible }) => {
         Kakao.API.request({
           url: '/v2/user/me',
           success(response) {
-            setLogtinData({
-              loginId: response.id,
-              name: response.properties.nickname,
-              email: response.kakao_account.email,
-              img: response.properties.thumbnail_image,
-              logoUrl: '../../public/kakaotalk_logo.png',
-              option: 'KAKAO',
-            });
-            dispatch({
-              type: REQUEST_KAKAO_LOGIN,
-            });
+            console.log(fetchUserLogin.type);
+            dispatch(
+              fetchUserLogin({
+                loginId: response.id,
+                name: response.properties.nickname,
+                email: response.kakao_account.email,
+                img: response.properties.thumbnail_image,
+                logoUrl: '../../public/kakaotalk_logo.png',
+                option: 'KAKAO',
+              }),
+            );
           },
-          fail(error) {
-            console.log(error);
+          fail(err) {
+            console.log(err);
           },
         });
       },
@@ -86,17 +66,16 @@ const Login = ({ setLoginVisible }) => {
 
   const onClickGoogleLogin = (response) => {
     console.log(response);
-    setLogtinData({
-      loginId: response.googleId,
-      name: response.profileObj.name,
-      img: response.profileObj.imageUrl,
-      email: response.profileObj.email,
-      logoUrl: '../../public/google_lo.png',
-      option: 'GOOGLE',
-    });
-    dispatch({
-      type: REQUEST_GOOGLE_LOGIN,
-    });
+    dispatch(
+      fetchUserLogin({
+        loginId: response.googleId,
+        name: response.profileObj.name,
+        img: response.profileObj.imageUrl,
+        email: response.profileObj.email,
+        logoUrl: '../../public/google_lo.png',
+        option: 'GOOGLE',
+      }),
+    );
   };
 
   return (
