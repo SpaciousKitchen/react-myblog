@@ -1,51 +1,56 @@
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const sucessLogin = createAction('SUCCESS_LOGIN');
-export const failsLogin = createAction('FAILS_LOGIN');
-
-export const sucessLogout = createAction('SUCCESS_LOGOUT');
-export const failsLogout = createAction('FAILS_LOGOUT');
-
-const init = {
+export const fetchUserLogin = createAsyncThunk(
+  'userLoginfetch',
+  async (userData, { getState }) => {
+    const { loading } = getState().user;
+    if (loading !== 'pending') {
+      return;
+    }
+    console.log('user/fetchByLoginStatus');
+    const response = await axios.post('http://localhost:3000/user/login', {
+      data: userData,
+    });
+    return response.data;
+  },
+);
+const initialState = {
   userInfo: null,
-  requestLogin: false,
-  successLogin: false,
-  failLogin: false,
-  requestLogout: false,
-  successLogout: false,
-  failLogout: false,
+  loading: 'idle',
+  error: null,
 };
 
-const userReducer = createReducer(init, (builder) => {
-  builder
-    .addCase(sucessLogin, (state, action) => {
-      state.requestLogin = false;
-      state.successLogin = true;
-      state.failsLogin = false;
-      state.userInfo = {
-        id: action.data.id,
-        name: action.data.name,
-        img: action.data.img,
-        eamil: action.data.email,
-        logoUrl: action.data.logoUrl,
-        option: action.data.option,
-      };
-    })
-    .addCase(failsLogin, (state) => {
-      state.requestLogin = false;
-      state.successLogin = false;
-      state.failsLogin = true;
-    })
-    .addCase(sucessLogout, (state) => {
-      state.userInfo = null;
-      state.requestLogout = false;
-      state.successLogout = true;
-      state.failsLogout = false;
-    })
-    .addCase(failsLogout, (state) => {
-      state.requestLogout = false;
-      state.successLogout = false;
-      state.failsLogout = true;
-    });
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    // standard reducer logic, with auto-generated action types per reducer
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUserLogin.pending, (state) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+        }
+      })
+      .addCase(fetchUserLogin.fulfilled, (state, action) => {
+        state.loading = 'idle';
+        state.userInfo = action.payload.data;
+        // state.userInfo = {
+        //   id: action.data.id,
+        //   name: action.data.name,
+        //   img: action.data.img,
+        //   eamil: action.data.email,
+        //   logoUrl: action.data.logoUrl,
+        //   option: action.data.option,
+        // };
+      })
+      .addCase(fetchUserLogin.rejected, (state, action) => {
+        state.loading = 'idle';
+        console.log('rejected');
+        state.error = action.payload.error;
+      });
+  },
 });
-export default userReducer;
+export default userSlice;

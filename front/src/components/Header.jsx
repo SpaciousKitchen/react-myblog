@@ -11,6 +11,7 @@ import { useStyles } from '../Styles/style';
 const Header = ({ setLoginVisible }) => {
   const classes = useStyles();
   const { userInfo } = useSelector((state) => state.user);
+
   return (
     <>
       {userInfo == null ? (

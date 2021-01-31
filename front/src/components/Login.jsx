@@ -6,8 +6,9 @@ import PropTypes from 'prop-types';
 import { ButtonGroup } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
+
 import axios from 'axios';
-import { sucessLogin } from '../../reducers/user';
+import { fetchUserLogin } from '../../reducers/user.js';
 import * as config from '../../config';
 
 import {
@@ -47,7 +48,8 @@ const Login = ({ setLoginVisible }) => {
   }, [requestLogin]);
 
   const onClickNaverLogin = () => {
-    dispatch(sucessLogin());
+    console.log('click');
+    dispatch(fetchUserLogin());
   };
 
   const onClickKaKaoLogin = async () => {
