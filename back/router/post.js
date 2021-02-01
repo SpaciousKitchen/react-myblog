@@ -1,6 +1,7 @@
 const express = require('express');
 router = express.Router();
 const { FreePost } = require('../models');
+const { User } = require('../models');
 router.post('/addpost', async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).send({ error: 'Please Login First' });
@@ -16,6 +17,10 @@ router.post('/addpost', async (req, res) => {
     const findPost = await FreePost.findOne({
       where: { id: postCreate.id },
       attributes: ['id', 'content', 'views', 'createdAt', 'subject'],
+      include: {
+        model: User,
+        attributes: ['id', 'name'],
+      },
     });
     console.log('findpost', findPost);
 

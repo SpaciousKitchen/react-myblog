@@ -47,6 +47,7 @@ const FreePosts = () => {
   const classes = useStyles();
   const history = useHistory();
   const { posts } = useSelector((state) => state.freeboard);
+  const { userInfo } = useSelector((state) => state.user);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -92,7 +93,7 @@ const FreePosts = () => {
                   >
                     <TableCell>{index}</TableCell>
                     <TableCell>{element.subject}</TableCell>
-                    <TableCell>{element.name}</TableCell>
+                    <TableCell>{element?.user.name}</TableCell>
                     <TableCell>{element.createdAt}</TableCell>
                     <TableCell>{element.views}</TableCell>
                   </TableRow>
@@ -110,14 +111,17 @@ const FreePosts = () => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-
-      <Button
-        style={{ float: 'right' }}
-        startIcon={<CreateIcon />}
-        onClick={() => history.push('/write')}
-      >
-        글쓰기
-      </Button>
+      {userInfo ? (
+        <Button
+          style={{ float: 'right' }}
+          startIcon={<CreateIcon />}
+          onClick={() => history.push('/write')}
+        >
+          글쓰기
+        </Button>
+      ) : (
+        <></>
+      )}
     </>
   );
 };

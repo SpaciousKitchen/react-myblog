@@ -1,57 +1,82 @@
 import faker from 'faker';
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
-export const sucessAddPost = createAction('SUCCESS_ADD_POST');
-export const failsAddPost = createAction('FAILS_ADD_POST');
-
-const init = {
+const initialState = {
+  loading: 'idle',
+  error: null,
+  done: null,
   posts: [
     {
       id: 1,
-      name: 'songsong',
       subject: '게시글 제목입니다.',
       createdAt: '2021-02-21',
       views: 500,
+      user: {
+        name: 'songsong',
+      },
     },
   ],
-  requestAddPost: false,
-  successAddPost: false,
-  failAddPost: false,
 };
 
 let start = 21;
 
 while (start) {
-  init.posts.push({
+  initialState.posts.push({
     id: start,
-    name: faker.name.findName(),
     subject: faker.lorem.word(),
     createdAt: faker.date.past,
     views: faker.random.number(),
+    user: {
+      name: faker.name.findName(),
+    },
   });
   start -= 1;
 }
 
-const freeBoardReducer = createReducer(init, (builder) => {
-  builder
-    .addCase(sucessAddPost, (state, action) => {
-      state.requestAddPost = false;
-      state.successAddPost = true;
-      state.failAddPost = false;
-      state.posts.unshift({
-        id: posts.length,
-        name: 'songsong',
-        Content: action.data.content,
-        subject: action.data.subject,
-        createdAt: action.data.createdAt,
-        views: action.data.views,
+export const fetchAddPost = createAsyncThunk(
+  'addPostfetch',
+  async (postData, { getState }) => {
+    const { loading } = getState().user;
+    console.log('goaddPostfetch111', loading);
+    // if (loading !== 'pending') {
+    //   return;
+    // }
+    console.log('goaddPostfetch2', loading);
+    const response = await axios.post('/post/addpost', postData);
+    console.log(response.data);
+    return response.data;
+  },
+);
+
+const freeBoardSlice = createSlice({
+  name: 'freeboard',
+  initialState,
+  reducers: {
+    // standard reducer logic, with auto-generated action types per reducer
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAddPost.pending, (state) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.error = null;
+          state.done = null;
+        }
+      })
+      .addCase(fetchAddPost.fulfilled, (state, action) => {
+        state.loading = 'idle';
+        state.done = 'AddPostfulfilled';
+        console.log(action);
+        state.posts.unshift(action.payload);
+      })
+      .addCase(fetchAddPost.rejected, (state, action) => {
+        state.loading = 'idle';
+        console.log('rejected');
+        console.log(action.error.message);
+        state.error = action.error.message;
       });
-    })
-    .addCase(failsAddPost, (state) => {
-      state.requestAddPost = false;
-      state.successAddPost = true;
-      state.failAddPost = false;
-    });
+  },
 });
 
-export default freeBoardReducer;
+export default freeBoardSlice;

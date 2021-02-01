@@ -5,14 +5,15 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 router.post('/login', async (req, res) => {
+  console.log(req.body);
   if (req.session.userId) {
     return res.status(401).send({ error: 'Alredy Login' });
   } else {
-    req.session.userId = req.body.loginId;
     const findResult = await User.findOne({
       where: { loginId: req.body.loginId },
     });
     if (!findResult) {
+      console.log('find1');
       const createResult = await User.create({
         loginId: req.body.loginId,
         name: req.body.name,
@@ -21,9 +22,12 @@ router.post('/login', async (req, res) => {
         logoUrl: req.body.logoUrl,
         option: req.body.option,
       });
-
+      console.log(createResult);
+      req.session.userId = createResult.id;
       return res.send(createResult);
     } else {
+      console.log(findResult.id);
+      req.session.userId = findResult.id;
       return res.send(findResult);
     }
   }
