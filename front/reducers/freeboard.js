@@ -25,10 +25,12 @@ while (start) {
   initialState.posts.push({
     id: start,
     subject: faker.lorem.word(),
-    createdAt: faker.date.past,
+    // createdAt: faker.date.past(),
+    content: `<p><strong> ${faker.lorem.text()} </strong></p><p>안녕하세요</p>`,
     views: faker.random.number(),
     user: {
       name: faker.name.findName(),
+      img: faker.image.people(),
     },
   });
   start -= 1;
