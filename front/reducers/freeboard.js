@@ -19,14 +19,14 @@ const initialState = {
   ],
 };
 
-let start = 21;
+let start = 10;
 
 while (start) {
   initialState.posts.push({
     id: start,
     subject: faker.lorem.word(),
     // createdAt: faker.date.past(),
-    content: `<p><strong> ${faker.lorem.text()} </strong></p><p>안녕하세요</p>`,
+    content: `<p><strong> ${faker.lorem.paragraphs()} </strong><br><p>${faker.lorem.paragraphs()} </p></p><p>안녕하세요</p>`,
     views: faker.random.number(),
     user: {
       name: faker.name.findName(),
@@ -41,11 +41,24 @@ export const fetchAddPost = createAsyncThunk(
   async (postData, { getState }) => {
     const { loading } = getState().user;
     console.log('goaddPostfetch111', loading);
+
+    console.log('goaddPostfetch2', loading);
+    const response = await axios.post('/post/addpost', postData);
+    console.log(response.data);
+    return response.data;
+  },
+);
+
+export const fetchDeletePost = createAsyncThunk(
+  'deletePost',
+  async (postData, { getState }) => {
+    const { loading } = getState().user;
+    console.log('goDeletePost111', loading);
     // if (loading !== 'pending') {
     //   return;
     // }
-    console.log('goaddPostfetch2', loading);
-    const response = await axios.post('/post/addpost', postData);
+    console.log('goDeletePost2', loading);
+    const response = await axios.delete(`/post/deletePost/${postData}`);
     console.log(response.data);
     return response.data;
   },
@@ -73,6 +86,27 @@ const freeBoardSlice = createSlice({
         state.posts.unshift(action.payload);
       })
       .addCase(fetchAddPost.rejected, (state, action) => {
+        state.loading = 'idle';
+        console.log('rejected');
+        console.log(action.error.message);
+        state.error = action.error.message;
+      })
+      .addCase(fetchDeletePost.pending, (state) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.error = null;
+          state.done = null;
+        }
+      })
+      .addCase(fetchDeletePost.fulfilled, (state, action) => {
+        state.loading = 'idle';
+        state.done = 'DeletePostfulfilled';
+        console.log(action);
+        state.posts = state.posts.filter(
+          (v) => v.id !== parseInt(action.payload.postId, 10),
+        );
+      })
+      .addCase(fetchDeletePost.rejected, (state, action) => {
         state.loading = 'idle';
         console.log('rejected');
         console.log(action.error.message);

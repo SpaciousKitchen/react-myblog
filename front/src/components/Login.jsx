@@ -15,7 +15,6 @@ import { Overlay, ContainLogin } from '../Styles/style';
 const Login = ({ setLoginVisible }) => {
   const dispatch = useDispatch();
   const { error, done } = useSelector((state) => state.user);
-  console.log(fetchUserLogin.type);
   useEffect(() => {
     if (error) {
       alert(error);
