@@ -6,8 +6,11 @@ const sequelize = require('./models').sequelize;
 const userRouter = require('./router/user');
 const postRouter = require('./router/post');
 const logger = require('morgan');
+const methodOverride = require('method-override');
 const cors = require('cors');
 const app = express();
+
+const { NotlogInError, loginError, serverError } = require('./router/err');
 
 sequelize
   .sync()
@@ -20,6 +23,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(logger('tiny'));
+app.use(methodOverride());
 
 app.use(
   cors({
@@ -45,6 +49,10 @@ app.use('/user', userRouter);
 app.use('/post', postRouter);
 
 app.set('port', 3000);
+
+app.use(NotlogInError);
+app.use(loginError);
+app.use(serverError);
 
 app.listen(app.get('port'), async () => {
   console.log('서버 실행중');

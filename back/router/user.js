@@ -4,10 +4,9 @@ router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
 
-router.post('/login', async (req, res) => {
-  console.log(req.body);
+router.post('/login', async (req, res, next) => {
   if (req.session.userId) {
-    return res.status(401).send({ error: 'Alredy Login' });
+    next(new Error('failed to load user'));
   } else {
     const findResult = await User.findOne({
       where: { loginId: req.body.loginId },
@@ -33,12 +32,12 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.post('/logout', (req, res) => {
+router.post('/logout', (req, res, next) => {
   if (req.session.userId) {
     req.session.destroy();
     return res.status(201).send();
   } else {
-    res.status(401).send({ error: 'Please Login First' });
+    next('error');
   }
 });
 

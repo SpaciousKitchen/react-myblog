@@ -2,9 +2,10 @@ const express = require('express');
 router = express.Router();
 const { FreePost } = require('../models');
 const { User } = require('../models');
-router.post('/addpost', async (req, res) => {
+
+router.post('/addpost', async (req, res, next) => {
   if (!req.session.userId) {
-    return res.status(401).send({ error: 'Please Login First' });
+    next('error');
   } else {
     console.log(req.body);
     const postCreate = await FreePost.create({
@@ -27,12 +28,12 @@ router.post('/addpost', async (req, res) => {
     return res.status(201).send(findPost);
   }
 });
-router.delete('/deletePost/:id', async (req, res) => {
+router.delete('/deletePost/:id', async (req, res, next) => {
   console.log('delete');
   console.log(req.params.id);
 
   if (!req.session.userId) {
-    return res.status(401).send({ error: 'Please Login First' });
+    next('error');
   } else {
     const findPost = await FreePost.findOne({
       where: { id: req.params.id },
@@ -47,7 +48,8 @@ router.delete('/deletePost/:id', async (req, res) => {
       });
       return res.status(201).send({ postId: req.params.id });
     } else {
-      return res.status(401).send({ error: 'You cant Delete the post' });
+      // return res.status(401).send({ error: 'You cant Delete the post' });
+      next('error');
     }
   }
 });
