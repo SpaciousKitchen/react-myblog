@@ -1,5 +1,5 @@
 import React from 'react';
-import AppLayout from '../Components/AppLayout';
+import AppLayout from 'components/common/AppLayout';
 
 const FeedBoard = () => (
   <>

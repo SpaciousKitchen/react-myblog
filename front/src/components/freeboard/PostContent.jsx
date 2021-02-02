@@ -8,7 +8,7 @@ import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined';
 import SmsOutlinedIcon from '@material-ui/icons/SmsOutlined';
 import { useHistory } from 'react-router-dom';
-import { fetchDeletePost } from '../../reducers/freeboard.js';
+import { fetchDeletePost } from 'reducers/freeboard.js';
 
 const PostContent = ({ post }) => {
   const dispatch = useDispatch();

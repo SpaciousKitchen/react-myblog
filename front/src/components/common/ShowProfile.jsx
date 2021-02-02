@@ -6,9 +6,9 @@ import {
   PopoverStyle,
   ProfileImageStyle,
   LogoutButtonStyle,
-} from '../Styles/style';
+} from 'styles/style';
 
-import { fetchUserLogout } from '../../reducers/user.js';
+import { fetchUserLogout } from 'reducers/user.js';
 
 const ShowUserProfile = () => {
   const dispatch = useDispatch();

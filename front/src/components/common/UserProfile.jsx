@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { ImgStyle, ProfileImageStyle } from '../Styles/style';
-import ShowProfile from './ShowProfile';
+import { ImgStyle, ProfileImageStyle } from 'styles/style';
+import ShowProfile from 'components/common/ShowProfile';
 
 const UserProfile = () => {
   const { userInfo } = useSelector((state) => state.user);

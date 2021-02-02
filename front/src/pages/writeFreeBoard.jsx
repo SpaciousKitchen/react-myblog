@@ -6,16 +6,15 @@ import { EditorState } from 'draft-js';
 import { convertToHTML } from 'draft-convert';
 import { useHistory } from 'react-router-dom';
 
-import AppLayout from '../Components/AppLayout';
-
-import { fetchAddPost } from '../../reducers/freeboard.js';
+import AppLayout from 'components/common/AppLayout';
 
 import {
   GlobalStyle,
   InputStyled,
   ButtonSstyled,
   WriteContainer,
-} from '../Styles/style.js';
+} from 'styles/style';
+import { fetchAddPost } from 'reducers/freeboard';
 
 const WriteFreeBoard = () => {
   const [editorState, seteditorState] = useState(EditorState.createEmpty());

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 
 import { useSelector } from 'react-redux';
-import UserProfile from './UserProfile';
+import UserProfile from 'components/common/UserProfile';
 
-import { useStyles } from '../Styles/style';
+import { useStyles } from 'styles/style';
 
 const Header = ({ setLoginVisible }) => {
   const classes = useStyles();

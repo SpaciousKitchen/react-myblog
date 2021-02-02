@@ -1,13 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-import Main from './Pages/main';
-import FreeBoard from './Pages/freeboard';
-import FeedBoard from './Pages/feedboard';
-import Study from './Pages/study';
+import configureStore from 'store/configureStore.js';
+import Main from './pages/main';
+import FreeBoard from './pages/freeboard';
+import FeedBoard from './pages/feedboard';
+import Study from './pages/study';
 import WriteFreeBoard from './pages/writeFreeBoard';
 import PostPage from './pages/postpage';
-import configureStore from '../store/configureStore.js';
 
 const App = () => (
   <>

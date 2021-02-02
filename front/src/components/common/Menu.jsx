@@ -11,7 +11,7 @@ import HomeRoundedIcon from '@material-ui/icons/HomeRounded';
 import IconButton from '@material-ui/core/IconButton';
 
 import { useHistory } from 'react-router-dom';
-import { useStyles } from '../Styles/style';
+import { useStyles } from 'styles/style';
 
 const Menu = () => {
   const classes = useStyles();

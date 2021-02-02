@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
-import Header from './Header';
-import Login from './Login';
-import Menu from './Menu';
+import Header from 'components/common/Header';
+import Login from 'components/common/Login';
+import Menu from 'components/common/Menu';
 // eslint-disable-next-line react/prop-types
 const AppLayout = ({ children }) => {
   const [loginVisible, setLoginVisible] = useState(false);

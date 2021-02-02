@@ -7,10 +7,9 @@ import { ButtonGroup } from '@material-ui/core';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchUserLogin } from '../../reducers/user.js';
-import * as config from '../../config';
-
-import { Overlay, ContainLogin } from '../Styles/style';
+import { Overlay, ContainLogin } from 'styles/style';
+import { fetchUserLogin } from 'reducers/user';
+import * as config from '../../../config';
 
 const Login = ({ setLoginVisible }) => {
   const dispatch = useDispatch();

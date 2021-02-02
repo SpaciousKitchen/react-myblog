@@ -1,7 +1,6 @@
 import React from 'react';
-
-import AppLayout from '../Components/AppLayout';
-import FreePosts from '../components/FreePosts';
+import AppLayout from 'components/common/AppLayout';
+import FreePosts from 'components/freeboard/FreePosts';
 
 const FreeBoard = () => (
   <>
