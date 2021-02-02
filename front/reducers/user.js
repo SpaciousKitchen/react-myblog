@@ -10,27 +10,33 @@ const initialState = {
 
 export const fetchUserLogin = createAsyncThunk(
   'userLoginfetch',
-  async (userData, { getState }) => {
+  async (userData, { getState, rejectWithValue }) => {
     const { loading } = getState().user;
     if (loading !== 'pending') {
       return;
     }
-    console.log('user/fetchByLoginStatus');
-    const response = await axios.post('/user/login', userData);
-    return response.data;
+    try {
+      const response = await axios.post('/user/login', userData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   },
 );
 
 export const fetchUserLogout = createAsyncThunk(
   'userLogoutfetch',
-  async (userData, { getState }) => {
+  async (userData, { getState, rejectWithValue }) => {
     const { loading } = getState().user;
     if (loading !== 'pending') {
       return;
     }
-    console.log('user/fetchByLogoutStatus');
-    const response = await axios.post('/user/logout');
-    return response.data;
+    try {
+      const response = await axios.post('/user/logout');
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   },
 );
 
@@ -52,7 +58,6 @@ const userSlice = createSlice({
       .addCase(fetchUserLogin.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'Loginfulfilled';
-        console.log(action.payload);
         state.userInfo = {
           id: action.payload.id,
           name: action.payload.name,
@@ -64,9 +69,7 @@ const userSlice = createSlice({
       })
       .addCase(fetchUserLogin.rejected, (state, action) => {
         state.loading = 'idle';
-        console.log('rejected');
-        console.log(action);
-        state.error = action.error.message;
+        state.error = action.payload.error;
       })
       .addCase(fetchUserLogout.pending, (state) => {
         if (state.loading === 'idle') {
@@ -82,9 +85,8 @@ const userSlice = createSlice({
       })
       .addCase(fetchUserLogout.rejected, (state, action) => {
         console.log('rejected');
-        console.log(action.payload);
         state.loading = 'idle';
-        state.error = action.error.message;
+        state.error = action.payload.error;
       });
   },
 });

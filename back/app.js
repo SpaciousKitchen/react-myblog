@@ -12,6 +12,8 @@ const app = express();
 
 const { NotlogInError, loginError, serverError } = require('./router/err');
 
+app.use(logger('tiny'));
+
 sequelize
   .sync()
   .then(() => {
@@ -19,10 +21,9 @@ sequelize
   })
   .catch(console.error);
 
-app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(logger('tiny'));
+app.use(cookieParser());
 app.use(methodOverride());
 
 app.use(
@@ -50,10 +51,7 @@ app.use('/post', postRouter);
 
 app.set('port', 3000);
 
-app.use(NotlogInError);
-app.use(loginError);
-app.use(serverError);
-
+app.use(NotlogInError, loginError, serverError);
 app.listen(app.get('port'), async () => {
   console.log('서버 실행중');
 });

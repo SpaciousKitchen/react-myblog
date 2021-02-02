@@ -40,12 +40,13 @@ export const fetchAddPost = createAsyncThunk(
   'addPostfetch',
   async (postData, { getState }) => {
     const { loading } = getState().user;
-    console.log('goaddPostfetch111', loading);
-
-    console.log('goaddPostfetch2', loading);
-    const response = await axios.post('/post/addpost', postData);
-    console.log(response.data);
-    return response.data;
+    console.log(loading);
+    try {
+      const response = await axios.post('/post/addpost', postData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   },
 );
 
@@ -58,9 +59,12 @@ export const fetchDeletePost = createAsyncThunk(
     //   return;
     // }
     console.log('goDeletePost2', loading);
-    const response = await axios.delete(`/post/deletePost/${postData}`);
-    console.log(response.data);
-    return response.data;
+    try {
+      const response = await axios.delete(`/post/deletePost/${postData}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   },
 );
 
@@ -89,7 +93,7 @@ const freeBoardSlice = createSlice({
         state.loading = 'idle';
         console.log('rejected');
         console.log(action.error.message);
-        state.error = action.error.message;
+        state.error = action.payload.error;
       })
       .addCase(fetchDeletePost.pending, (state) => {
         if (state.loading === 'idle') {
@@ -110,7 +114,7 @@ const freeBoardSlice = createSlice({
         state.loading = 'idle';
         console.log('rejected');
         console.log(action.error.message);
-        state.error = action.error.message;
+        state.error = action.payload.error;
       });
   },
 });
