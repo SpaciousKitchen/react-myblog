@@ -8,6 +8,10 @@ import FeedBoard from './pages/feedboard';
 import Study from './pages/study';
 import WriteFreeBoard from './pages/writeFreeBoard';
 import PostPage from './pages/postpage';
+import * as config from '../config';
+
+Kakao.init(config.REACT_APP_KAKAO_CLIENT_ID);
+Kakao.isInitialized();
 
 const App = () => (
   <>

@@ -17,8 +17,10 @@ export const fetchUserLogin = createAsyncThunk(
     }
     try {
       const response = await axios.post('/user/login', userData);
+      console.log(response);
       return response.data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error.response.data);
     }
   },
@@ -35,6 +37,7 @@ export const fetchUserLogout = createAsyncThunk(
       const response = await axios.post('/user/logout');
       return response.data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error.response.data);
     }
   },
@@ -69,7 +72,12 @@ const userSlice = createSlice({
       })
       .addCase(fetchUserLogin.rejected, (state, action) => {
         state.loading = 'idle';
-        state.error = action.payload.error;
+        console.log(action);
+        if (action.payload) {
+          state.error = action.payload.error;
+        } else {
+          state.error = action.error.message;
+        }
       })
       .addCase(fetchUserLogout.pending, (state) => {
         if (state.loading === 'idle') {
@@ -86,7 +94,11 @@ const userSlice = createSlice({
       .addCase(fetchUserLogout.rejected, (state, action) => {
         console.log('rejected');
         state.loading = 'idle';
-        state.error = action.payload.error;
+        if (action.payload) {
+          state.error = action.payload.error;
+        } else {
+          state.error = action.error.message;
+        }
       });
   },
 });

@@ -14,6 +14,7 @@ import * as config from '../../../config';
 const Login = ({ setLoginVisible }) => {
   const dispatch = useDispatch();
   const { error, done } = useSelector((state) => state.user);
+
   useEffect(() => {
     if (error) {
       alert(error);
@@ -31,8 +32,6 @@ const Login = ({ setLoginVisible }) => {
   };
 
   const onClickKaKaoLogin = async () => {
-    Kakao.init(config.REACT_APP_KAKAO_CLIENT_ID);
-    Kakao.isInitialized();
     Kakao.Auth.login({
       success(authObj) {
         Kakao.Auth.setAccessToken(authObj.access_token);
