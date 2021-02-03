@@ -68,7 +68,7 @@ const PostContent = ({ post }) => {
             onClick={onClickCommend}
             style={{ cursor: 'pointer' }}
           />
-          {userInfo.id === post.user?.id ? (
+          {userInfo?.id === post.user?.id ? (
             <>
               <EditOutlinedIcon
                 color="action"
