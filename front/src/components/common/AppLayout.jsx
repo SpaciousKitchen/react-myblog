@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
+
 import { Grid } from '@material-ui/core';
 import Header from 'components/common/Header';
 import Login from 'components/common/Login';
 import Menu from 'components/common/Menu';
 // eslint-disable-next-line react/prop-types
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchLoadPosts } from 'reducers/freeboard';
 
 const AppLayout = ({ children }) => {
   const [loginVisible, setLoginVisible] = useState(false);
+  const { posts } = useSelector((state) => state.freeboard);
   const dispatch = useDispatch();
-  dispatch(fetchLoadPosts());
+
+  if (posts.length === 0) {
+    dispatch(fetchLoadPosts());
+  }
 
   return (
     <>

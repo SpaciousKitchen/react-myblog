@@ -26,6 +26,11 @@ const PostContent = ({ post }) => {
     }
     history.push('/freeboard');
   };
+
+  const onClickEdit = () => {
+    console.log('clickEdit');
+    history.push(`/editcontent/${post.id}`);
+  };
   return (
     <>
       <div style={{ padding: '50px' }}>
@@ -48,8 +53,8 @@ const PostContent = ({ post }) => {
 
         <Divider variant="middle" />
         <div style={{ padding: '0px 20px' }}>
-          <h3>{post.name}</h3>
-          <div>{ReactHtmlParser(post.content)}</div>
+          <h3>{post?.name}</h3>
+          <div>{ReactHtmlParser(post?.content)}</div>
         </div>
         <Divider variant="middle" />
         <div style={{ padding: '10px 20px' }}>
@@ -67,6 +72,7 @@ const PostContent = ({ post }) => {
             <>
               <EditOutlinedIcon
                 color="action"
+                onClick={onClickEdit}
                 style={{ cursor: 'pointer', float: 'right' }}
               />
               <DeleteOutlineOutlinedIcon
