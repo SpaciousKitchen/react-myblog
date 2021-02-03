@@ -1,4 +1,3 @@
-import faker from 'faker';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -6,35 +5,22 @@ const initialState = {
   loading: 'idle',
   error: null,
   done: null,
-  posts: [
-    {
-      id: 1,
-      subject: '게시글 제목입니다.',
-      createdAt: '2021-02-21',
-      views: 500,
-      user: {
-        name: 'songsong',
-      },
-    },
-  ],
+  posts: [],
 };
 
-let start = 10;
-
-while (start) {
-  initialState.posts.push({
-    id: start,
-    subject: faker.lorem.word(),
-    // createdAt: faker.date.past(),
-    content: `<p><strong> ${faker.lorem.paragraphs()} </strong><br><p>${faker.lorem.paragraphs()} </p></p><p>안녕하세요</p>`,
-    views: faker.random.number(),
-    user: {
-      name: faker.name.findName(),
-      img: faker.image.people(),
-    },
-  });
-  start -= 1;
-}
+export const fetchLoadPosts = createAsyncThunk(
+  'loadPostsfetch',
+  async (postData, { getState }) => {
+    const { loading } = getState().user;
+    console.log(loading);
+    try {
+      const response = await axios.get('/post/loadposts');
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 
 export const fetchAddPost = createAsyncThunk(
   'addPostfetch',
@@ -76,6 +62,25 @@ const freeBoardSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchLoadPosts.pending, (state) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.error = null;
+          state.done = null;
+        }
+      })
+      .addCase(fetchLoadPosts.fulfilled, (state, action) => {
+        state.loading = 'idle';
+        state.done = 'LoadPostsfulfilled';
+        console.log(action);
+        state.posts = action.payload;
+      })
+      .addCase(fetchLoadPosts.rejected, (state, action) => {
+        state.loading = 'idle';
+        console.log('rejected');
+        console.log(action.error.message);
+        state.error = action.payload.error;
+      })
       .addCase(fetchAddPost.pending, (state) => {
         if (state.loading === 'idle') {
           state.loading = 'pending';

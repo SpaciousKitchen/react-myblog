@@ -3,6 +3,23 @@ router = express.Router();
 const { FreePost } = require('../models');
 const { User } = require('../models');
 
+router.get('/loadPosts', async (req, res, next) => {
+  try {
+    const findPosts = await FreePost.findAll({
+      attributes: ['id', 'content', 'views', 'createdAt', 'subject'],
+      include: {
+        model: User,
+        attributes: ['id', 'name', 'img'],
+      },
+    });
+    console.log('findposts', findPosts);
+
+    return res.status(201).send(findPosts);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post('/addpost', async (req, res, next) => {
   if (!req.session.userId) {
     next('error');
