@@ -10,7 +10,7 @@ const initialState = {
 
 export const fetchLoadPosts = createAsyncThunk(
   'loadPostsfetch',
-  async (postData, { getState }) => {
+  async (postData, { getState, rejectWithValue }) => {
     const { loading } = getState().user;
     console.log(loading);
     try {
@@ -24,7 +24,7 @@ export const fetchLoadPosts = createAsyncThunk(
 
 export const fetchAddPost = createAsyncThunk(
   'addPostfetch',
-  async (postData, { getState }) => {
+  async (postData, { getState, rejectWithValue }) => {
     const { loading } = getState().user;
     console.log(loading);
     try {
@@ -35,10 +35,26 @@ export const fetchAddPost = createAsyncThunk(
     }
   },
 );
+export const fetchEditPost = createAsyncThunk(
+  'editPostfetch',
+  async (postData, { getState, rejectWithValue }) => {
+    const { loading } = getState().user;
+    console.log(loading);
+    try {
+      const response = await axios.post(
+        `/post/editPost/${postData.id}`,
+        postData,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
 
 export const fetchDeletePost = createAsyncThunk(
   'deletePost',
-  async (postData, { getState }) => {
+  async (postData, { getState, rejectWithValue }) => {
     const { loading } = getState().user;
     console.log('goDeletePost111', loading);
     // if (loading !== 'pending') {
@@ -99,6 +115,33 @@ const freeBoardSlice = createSlice({
         console.log('rejected');
         console.log(action.error.message);
         state.error = action.payload.error;
+      })
+      .addCase(fetchEditPost.pending, (state) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.error = null;
+          state.done = null;
+        }
+      })
+      .addCase(fetchEditPost.fulfilled, (state, action) => {
+        state.loading = 'idle';
+        state.done = 'EditPostfulfilled';
+        console.log(action.payload);
+
+        const index = state.posts.findIndex((v) => v.id === action.payload.id);
+        console.log(index);
+        state.posts[index] = action.payload;
+        // state.posts.unshift(action.payload);
+      })
+      .addCase(fetchEditPost.rejected, (state, action) => {
+        state.loading = 'idle';
+        console.log('rejected');
+        console.log(action.error.message);
+        if (action.payload.error) {
+          state.error = action.payload.error;
+        } else {
+          state.error = action.error.message;
+        }
       })
       .addCase(fetchDeletePost.pending, (state) => {
         if (state.loading === 'idle') {

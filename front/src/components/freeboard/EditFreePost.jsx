@@ -11,14 +11,15 @@ import {
   ButtonSstyled,
   WriteContainer,
 } from 'styles/style';
-import { fetchAddPost } from 'reducers/freeboard';
+import { fetchEditPost } from 'reducers/freeboard';
 
 const EditFreeBoard = ({ post }) => {
-  console.log(post);
   const [editorState, seteditorState] = useState(
     EditorState.createWithContent(convertFromHTML(post.content)),
   );
   const [subjectState, setSubjectState] = useState(post.subject);
+  // 기존 post에 있던 내용으로 초기화
+
   const dispatch = useDispatch();
   const history = useHistory();
   const onEditorStateChange = (edit) => {
@@ -32,7 +33,8 @@ const EditFreeBoard = ({ post }) => {
       return;
     }
     dispatch(
-      fetchAddPost({
+      fetchEditPost({
+        id: post.id,
         content: editTextHtml,
         subject: subjectState,
       }),

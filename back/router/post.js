@@ -45,6 +45,41 @@ router.post('/addpost', async (req, res, next) => {
     return res.status(201).send(findPost);
   }
 });
+router.post('/editPost/:id', async (req, res, next) => {
+  console.log('pass');
+  console.log(req.params.id);
+
+  if (!req.session.userId) {
+    console.log('pass');
+    next('error');
+  } else {
+    console.log(req.body);
+
+    try {
+      await FreePost.update(
+        { content: req.body.content, subject: req.body.subject },
+        {
+          where: {
+            id: req.params.id,
+            userId: req.session.userId,
+          },
+        },
+      );
+
+      const changefindPost = await FreePost.findOne({
+        where: { id: req.params.id },
+        include: {
+          model: User,
+          attributes: ['id', 'name', 'img'],
+        },
+      });
+
+      return res.status(201).send(changefindPost);
+    } catch (error) {
+      next(error);
+    }
+  }
+});
 router.delete('/deletePost/:id', async (req, res, next) => {
   console.log('delete');
   console.log(req.params.id);
