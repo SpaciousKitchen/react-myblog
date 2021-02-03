@@ -1,7 +1,9 @@
 import React from 'react';
-import { Provider } from 'react-redux';
+
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-import configureStore from 'store/configureStore.js';
+
+import { useDispatch } from 'react-redux';
+import { fetchLoadPosts } from 'reducers/freeboard';
 import Main from './pages/main';
 import FreeBoard from './pages/freeboard';
 import FeedBoard from './pages/feedboard';
@@ -12,10 +14,11 @@ import * as config from '../config';
 
 Kakao.init(config.REACT_APP_KAKAO_CLIENT_ID);
 Kakao.isInitialized();
-
-const App = () => (
-  <>
-    <Provider store={configureStore()}>
+const App = () => {
+  const dispatch = useDispatch();
+  dispatch(fetchLoadPosts());
+  return (
+    <>
       <Router>
         <Route exact path="/" component={Main} />
         <Route path="/freeboard" component={FreeBoard} />
@@ -24,7 +27,7 @@ const App = () => (
         <Route path="/study" component={Study} />
         <Route path="/write" component={WriteFreeBoard} />
       </Router>
-    </Provider>
-  </>
-);
+    </>
+  );
+};
 export default App;
