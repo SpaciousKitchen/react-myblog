@@ -111,6 +111,7 @@ export const Overlay = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 export const ContainLogin = styled.div`
   padding: 20px;
   background: #ffffffff;
@@ -119,4 +120,15 @@ export const ContainLogin = styled.div`
   height: 500px;
   border-radius: 0.28571429rem;
   flex-direction: column;
+`;
+export const CommentTextArea = styled.textarea`
+  border: none;
+  padding: 20px;
+  width: 80%;
+`;
+export const CommentSubmitButton = styled.button`
+  width: 10%;
+  color: #bdbdbd;
+  border: none;
+  background: none;
 `;

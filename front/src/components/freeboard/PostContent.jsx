@@ -10,6 +10,7 @@ import SmsOutlinedIcon from '@material-ui/icons/SmsOutlined';
 import { useHistory } from 'react-router-dom';
 import { fetchDeletePost } from 'reducers/freeboard.js';
 import FreeComment from './FreeComment';
+import AddFreeComment from './AddFreeComment';
 
 const PostContent = ({ post }) => {
   const dispatch = useDispatch();
@@ -111,6 +112,7 @@ const PostContent = ({ post }) => {
             <></>
           )}
         </div>
+        {userInfo ? <AddFreeComment /> : <></>}
         {showCommentMode ? (
           comment.map((com) => <FreeComment com={com} />)
         ) : (
