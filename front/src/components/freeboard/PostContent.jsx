@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import { useDispatch, useSelector } from 'react-redux';
 import Divider from '@material-ui/core/Divider';
@@ -9,14 +9,40 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import SmsOutlinedIcon from '@material-ui/icons/SmsOutlined';
 import { useHistory } from 'react-router-dom';
 import { fetchDeletePost } from 'reducers/freeboard.js';
+import FreeComment from './FreeComment';
 
 const PostContent = ({ post }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { userInfo } = useSelector((state) => state.user);
+  const [showCommentMode, setShowCommentMode] = useState(false);
+  const comment = [
+    {
+      id: 1,
+      content:
+        '송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송',
+      userId: 1,
+      name: '송송',
+      postId: post.id,
+    },
+    {
+      id: 1,
+      content: '송송송송',
+      userId: 'songsong',
+      name: '송송',
+      postId: post.id,
+    },
+    {
+      id: 1,
+      content: '송송송송',
+      userId: 'songsong',
+      name: '송송',
+      postId: post.id,
+    },
+  ];
   const onClickHeart = () => {};
   const onClickCommend = () => {
-    console.log('clickCommend');
+    setShowCommentMode((pre) => !pre);
   };
   const onClickDeletePost = () => {
     const confirmResult = confirm('정말로 삭제하시겠습니까?');
@@ -85,6 +111,11 @@ const PostContent = ({ post }) => {
             <></>
           )}
         </div>
+        {showCommentMode ? (
+          comment.map((com) => <FreeComment com={com} />)
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
