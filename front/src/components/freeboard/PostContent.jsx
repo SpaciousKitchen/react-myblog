@@ -17,30 +17,7 @@ const PostContent = ({ post }) => {
   const history = useHistory();
   const { userInfo } = useSelector((state) => state.user);
   const [showCommentMode, setShowCommentMode] = useState(false);
-  const comment = [
-    {
-      id: 1,
-      content:
-        '송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송송',
-      userId: 1,
-      name: '송송',
-      postId: post.id,
-    },
-    {
-      id: 1,
-      content: '송송송송',
-      userId: 'songsong',
-      name: '송송',
-      postId: post.id,
-    },
-    {
-      id: 1,
-      content: '송송송송',
-      userId: 'songsong',
-      name: '송송',
-      postId: post.id,
-    },
-  ];
+
   const onClickHeart = () => {};
   const onClickCommend = () => {
     setShowCommentMode((pre) => !pre);
@@ -112,9 +89,9 @@ const PostContent = ({ post }) => {
             <></>
           )}
         </div>
-        {userInfo ? <AddFreeComment /> : <></>}
+        {userInfo ? <AddFreeComment postId={post.id} /> : <></>}
         {showCommentMode ? (
-          comment.map((com) => <FreeComment com={com} />)
+          post.comment?.map((comment) => <FreeComment comment={comment} />)
         ) : (
           <></>
         )}

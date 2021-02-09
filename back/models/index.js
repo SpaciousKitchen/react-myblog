@@ -21,10 +21,12 @@ db.FreePost = require('./freepost')(sequelize, Sequelize);
 db.FreeComment = require('./freecomment')(sequelize, Sequelize);
 
 db.User.hasMany(db.FreePost);
-db.User.hasMany(db.FreeComment);
 
 db.FreePost.belongsTo(db.User);
+db.FreePost.hasMany(db.FreeComment);
+
 db.FreeComment.belongsTo(db.User);
+db.FreeComment.belongsTo(db.FreePost);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

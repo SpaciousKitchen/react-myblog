@@ -6,9 +6,10 @@ import { CommentTextArea, CommentSubmitButton } from 'styles/style';
 
 const AddFreeComment = ({ postId }) => {
   const dispatch = useDispatch();
+
   const [commentText, setCommentText] = useState('');
   const onSubmit = (e) => {
-    dispatch(fetchAddComment(postId, commentText));
+    dispatch(fetchAddComment({ postId, commentText }));
     e.preventDefault();
   };
   const onChangeCommentText = (e) => {

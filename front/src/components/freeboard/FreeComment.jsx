@@ -10,21 +10,24 @@ import FolderIcon from '@material-ui/icons/Folder';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 
-const FreeComment = ({ com }) => {
+const FreeComment = ({ comment }) => {
   const { userInfo } = useSelector((state) => state.user);
   return (
     <>
       <List>
         <ListItem>
           <ListItemAvatar>
-            <Avatar>
+            <Avatar src={comment.user.img}>
               <FolderIcon />
             </Avatar>
           </ListItemAvatar>
 
-          <ListItemText primary={com.name} secondary={<>{com.content}</>} />
+          <ListItemText
+            primary={comment.user.name}
+            secondary={<>{comment.content}</>}
+          />
           <div />
-          {userInfo?.id === com.userId ? (
+          {userInfo?.id === comment.user.userId ? (
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="delete">
                 <DeleteIcon color="action" />

@@ -1,6 +1,7 @@
 const express = require('express');
 router = express.Router();
 const { FreePost } = require('../models');
+const { FreeComment } = require('../models');
 const { User } = require('../models');
 
 router.get('/loadPosts', async (req, res, next) => {
@@ -81,9 +82,6 @@ router.post('/editPost/:id', async (req, res, next) => {
   }
 });
 router.delete('/deletePost/:id', async (req, res, next) => {
-  console.log('delete');
-  console.log(req.params.id);
-
   if (!req.session.userId) {
     next('error');
   } else {
@@ -103,6 +101,31 @@ router.delete('/deletePost/:id', async (req, res, next) => {
       // return res.status(401).send({ error: 'You cant Delete the post' });
       next('error');
     }
+  }
+});
+router.post('/:id/addComment', async (req, res, next) => {
+  if (!req.session.userId) {
+    next('error');
+  } else {
+    const createComment = await FreeComment.create({
+      postId: req.params.id,
+      userId: req.session.userId,
+      content: req.body.commentText,
+    });
+
+    const findComment = await FreeComment.findOne({
+      where: { id: createComment.id },
+      attributes: ['id', 'content', 'createdAt'],
+      include: {
+        model: User,
+        attributes: ['id', 'name', 'img'],
+      },
+    });
+
+    return res.status(201).send({
+      postId: parseInt(req.params.id, 10),
+      comment: findComment,
+    });
   }
 });
 

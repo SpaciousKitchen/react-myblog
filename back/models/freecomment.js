@@ -7,10 +7,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
 
-      views: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       // UserId
       //FreeBoardPosts
     },

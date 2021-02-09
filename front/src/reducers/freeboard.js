@@ -70,6 +70,24 @@ export const fetchDeletePost = createAsyncThunk(
   },
 );
 
+export const fetchAddComment = createAsyncThunk(
+  'addCommentfetch',
+  async (commentData, { getState, rejectWithValue }) => {
+    console.log(commentData);
+    const { loading } = getState().user;
+    console.log(loading);
+    try {
+      const response = await axios.post(
+        `/post/${commentData.postId}/addComment`,
+        commentData,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 const freeBoardSlice = createSlice({
   name: 'freeboard',
   initialState,
@@ -108,6 +126,7 @@ const freeBoardSlice = createSlice({
         state.loading = 'idle';
         state.done = 'AddPostfulfilled';
         console.log(action);
+        console.log(state.posts);
         state.posts.unshift(action.payload);
       })
       .addCase(fetchAddPost.rejected, (state, action) => {
@@ -159,6 +178,30 @@ const freeBoardSlice = createSlice({
         );
       })
       .addCase(fetchDeletePost.rejected, (state, action) => {
+        state.loading = 'idle';
+        console.log('rejected');
+        console.log(action.error.message);
+        state.error = action.payload.error;
+      })
+      .addCase(fetchAddComment.pending, (state) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.error = null;
+          state.done = null;
+        }
+      })
+      .addCase(fetchAddComment.fulfilled, (state, action) => {
+        state.loading = 'idle';
+        state.done = 'AddCommentfulfilled';
+        const index = state.posts.findIndex(
+          (v) => v.id === action.payload.postId,
+        );
+        if (!state.posts[index].comment) {
+          state.posts[index].comment = [];
+        }
+        state.posts[index].comment.unshift(action.payload.comment);
+      })
+      .addCase(fetchAddComment.rejected, (state, action) => {
         state.loading = 'idle';
         console.log('rejected');
         console.log(action.error.message);
