@@ -91,7 +91,9 @@ const PostContent = ({ post }) => {
         </div>
         {userInfo ? <AddFreeComment postId={post.id} /> : <></>}
         {showCommentMode ? (
-          post.freecomments?.map((comment) => <FreeComment comment={comment} />)
+          post.freecomments?.map((comment) => (
+            <FreeComment postId={post.id} comment={comment} />
+          ))
         ) : (
           <></>
         )}

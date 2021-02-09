@@ -137,4 +137,32 @@ router.post('/:id/addComment', async (req, res, next) => {
   }
 });
 
+router.delete('/:postId/deleteComment/:commentId', async (req, res, next) => {
+  if (!req.session.userId) {
+    next('error');
+  } else {
+    console.log(req.params.postId, req.params.commentId);
+    const findComment = await FreeComment.findOne({
+      where: {
+        id: req.params.commentId,
+        freepostId: req.params.postId,
+      },
+    });
+    console.log(findComment);
+    if (findComment.userId === req.session.userId) {
+      console.log('deletegogo');
+      await FreeComment.destroy({
+        where: {
+          id: findComment.id,
+          freepostId: findComment.freepostId,
+          userId: findComment.userId,
+        },
+      });
+      return res.status(201).send({ postId: findComment.freepostId, commentId: findComment.id });
+    } else {
+      next(error);
+    }
+  }
+});
+
 module.exports = router;
