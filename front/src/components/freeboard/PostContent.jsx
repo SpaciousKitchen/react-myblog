@@ -16,7 +16,7 @@ const PostContent = ({ post }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { userInfo } = useSelector((state) => state.user);
-  const [showCommentMode, setShowCommentMode] = useState(false);
+  const [showCommentMode, setShowCommentMode] = useState(true);
 
   const onClickHeart = () => {};
   const onClickCommend = () => {
@@ -91,7 +91,7 @@ const PostContent = ({ post }) => {
         </div>
         {userInfo ? <AddFreeComment postId={post.id} /> : <></>}
         {showCommentMode ? (
-          post.comment?.map((comment) => <FreeComment comment={comment} />)
+          post.freecomments?.map((comment) => <FreeComment comment={comment} />)
         ) : (
           <></>
         )}

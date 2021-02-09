@@ -8,10 +8,18 @@ router.get('/loadPosts', async (req, res, next) => {
   try {
     const findPosts = await FreePost.findAll({
       attributes: ['id', 'content', 'views', 'createdAt', 'subject'],
-      include: {
-        model: User,
-        attributes: ['id', 'name', 'img'],
-      },
+      order: [['createdAt', 'DESC']],
+      include: [
+        { model: User, attributes: ['id', 'name', 'img'] },
+        {
+          model: FreeComment,
+          attributes: ['id', 'content', 'createdAt'],
+          include: {
+            model: User,
+            attributes: ['id', 'name', 'img'],
+          },
+        },
+      ],
     });
     console.log('findposts', findPosts);
 
@@ -108,7 +116,7 @@ router.post('/:id/addComment', async (req, res, next) => {
     next('error');
   } else {
     const createComment = await FreeComment.create({
-      postId: req.params.id,
+      freepostId: req.params.id,
       userId: req.session.userId,
       content: req.body.commentText,
     });

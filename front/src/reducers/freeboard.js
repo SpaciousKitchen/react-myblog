@@ -196,10 +196,10 @@ const freeBoardSlice = createSlice({
         const index = state.posts.findIndex(
           (v) => v.id === action.payload.postId,
         );
-        if (!state.posts[index].comment) {
-          state.posts[index].comment = [];
+        if (!state.posts[index].freecomments) {
+          state.posts[index].freecomments = [];
         }
-        state.posts[index].comment.unshift(action.payload.comment);
+        state.posts[index].freecomments.push(action.payload.comment);
       })
       .addCase(fetchAddComment.rejected, (state, action) => {
         state.loading = 'idle';
