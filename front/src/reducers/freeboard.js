@@ -88,6 +88,21 @@ export const fetchAddComment = createAsyncThunk(
   },
 );
 
+export const fetchEditComment = createAsyncThunk(
+  'editCommentfetch',
+  async (commentData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `/post/${commentData.postId}/editComment/${commentData.commentId}`,
+        commentData,
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const fetchDeleteComment = createAsyncThunk(
   'deleteComment',
   async (commentData, { getState, rejectWithValue }) => {
@@ -220,6 +235,31 @@ const freeBoardSlice = createSlice({
         state.posts[index].freecomments.push(action.payload.comment);
       })
       .addCase(fetchAddComment.rejected, (state, action) => {
+        state.loading = 'idle';
+        console.log('rejected');
+        console.log(action.error.message);
+        state.error = action.payload.error;
+      })
+      .addCase(fetchEditComment.pending, (state) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.error = null;
+          state.done = null;
+        }
+      })
+      .addCase(fetchEditComment.fulfilled, (state, action) => {
+        state.loading = 'idle';
+        state.done = 'EditCommentfulfilled';
+        const changeComment = action.payload.content;
+        const index = state.posts.findIndex(
+          (v) => v.id === action.payload.freepostId,
+        );
+        const commentIndex = state.posts[index].freecomments.findIndex(
+          (v) => v.id === action.payload.id,
+        );
+        state.posts[index].freecomments[commentIndex].content = changeComment;
+      })
+      .addCase(fetchEditComment.rejected, (state, action) => {
         state.loading = 'idle';
         console.log('rejected');
         console.log(action.error.message);

@@ -9,7 +9,7 @@ import DeleteOutlineOutlinedIcon from '@material-ui/icons/DeleteOutlineOutlined'
 import SmsOutlinedIcon from '@material-ui/icons/SmsOutlined';
 import { useHistory } from 'react-router-dom';
 import { fetchDeletePost } from 'reducers/freeboard.js';
-import FreeComment from './FreeComment';
+import FreeComments from './FreeComments';
 import AddFreeComment from './AddFreeComment';
 
 const PostContent = ({ post }) => {
@@ -92,7 +92,7 @@ const PostContent = ({ post }) => {
         {userInfo ? <AddFreeComment postId={post.id} /> : <></>}
         {showCommentMode ? (
           post.freecomments?.map((comment) => (
-            <FreeComment postId={post.id} comment={comment} />
+            <FreeComments postId={post.id} comment={comment} />
           ))
         ) : (
           <></>

@@ -17,6 +17,7 @@ router.get('/loadPosts', async (req, res, next) => {
           include: {
             model: User,
             attributes: ['id', 'name', 'img'],
+            order: [['createdAt', 'DESC']],
           },
         },
       ],
@@ -55,15 +56,10 @@ router.post('/addpost', async (req, res, next) => {
   }
 });
 router.post('/editPost/:id', async (req, res, next) => {
-  console.log('pass');
-  console.log(req.params.id);
-
   if (!req.session.userId) {
     console.log('pass');
     next('error');
   } else {
-    console.log(req.body);
-
     try {
       await FreePost.update(
         { content: req.body.content, subject: req.body.subject },
@@ -134,6 +130,33 @@ router.post('/:id/addComment', async (req, res, next) => {
       postId: parseInt(req.params.id, 10),
       comment: findComment,
     });
+  }
+});
+
+router.post('/:postId/editComment/:commentId', async (req, res, next) => {
+  if (!req.session.userId) {
+    next('error');
+  } else {
+    try {
+      await FreeComment.update(
+        { content: req.body.content },
+        {
+          where: {
+            id: req.params.commentId,
+            freepostId: req.params.postId,
+          },
+        },
+      );
+
+      const changefindComment = await FreeComment.findOne({
+        where: { id: req.params.commentId },
+        attributes: ['id', 'content', 'freepostId'],
+      });
+
+      return res.status(201).send(changefindComment);
+    } catch (error) {
+      next('error');
+    }
   }
 });
 
