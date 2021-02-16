@@ -1,5 +1,5 @@
 const express = require('express');
-const session = require('express-session');
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const sequelize = require('./models').sequelize;
@@ -8,6 +8,7 @@ const postRouter = require('./router/post');
 const logger = require('morgan');
 const methodOverride = require('method-override');
 const cors = require('cors');
+
 const app = express();
 
 const { NotlogInError, loginError, serverError } = require('./router/err');
@@ -33,25 +34,12 @@ app.use(
   }),
 );
 
-app.use(
-  session({
-    httpOnly: true,
-    secure: true,
-    secret: process.env.SECRET_KEY,
-    resave: false,
-    cookie: {
-      httpOnly: true,
-      Secure: true,
-    },
-  }),
-);
-
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 
 app.set('port', 3000);
 
-app.use(NotlogInError, loginError, serverError);
+// app.use(NotlogInError, loginError, serverError);
 app.listen(app.get('port'), async () => {
   console.log('서버 실행중');
 });

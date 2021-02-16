@@ -17,7 +17,7 @@ export const fetchUserLogin = createAsyncThunk(
     }
     try {
       const response = await axios.post('/user/login', userData);
-      console.log(response);
+      axios.defaults.headers.common.authorization = response.data.token;
       return response.data;
     } catch (error) {
       console.log(error);
@@ -61,18 +61,11 @@ const userSlice = createSlice({
       .addCase(fetchUserLogin.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'Loginfulfilled';
-        state.userInfo = {
-          id: action.payload.id,
-          name: action.payload.name,
-          img: action.payload.img,
-          eamil: action.payload.email,
-          logoUrl: action.payload.logoUrl,
-          option: action.payload.option,
-        };
+        console.log(action.payload.user);
+        state.userInfo = action.payload.user;
       })
       .addCase(fetchUserLogin.rejected, (state, action) => {
         state.loading = 'idle';
-        console.log(action);
         if (action.payload) {
           state.error = action.payload.error;
         } else {

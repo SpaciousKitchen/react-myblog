@@ -1,44 +1,38 @@
 const express = require('express');
 const { User } = require('../models');
+const jwt = require('jsonwebtoken');
 router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
+const { verifyToken } = require('./auth');
 
-router.post('/login', async (req, res, next) => {
-  if (req.session.userId) {
-    next(new Error('failed to load user'));
-  } else {
-    const findResult = await User.findOne({
-      where: { loginId: req.body.loginId },
+router.post('/login', async (req, res) => {
+  const findResult = await User.findOne({
+    where: { loginId: req.body.loginId },
+  });
+  if (!findResult) {
+    const createResult = await User.create({
+      loginId: req.body.loginId,
+      name: req.body.name,
+      email: req.body.email,
+      img: req.body.img,
+      logoUrl: req.body.logoUrl,
+      option: req.body.option,
     });
-    if (!findResult) {
-      console.log('find1');
-      const createResult = await User.create({
-        loginId: req.body.loginId,
-        name: req.body.name,
-        email: req.body.email,
-        img: req.body.img,
-        logoUrl: req.body.logoUrl,
-        option: req.body.option,
-      });
-      console.log(createResult);
-      req.session.userId = createResult.id;
-      return res.send(createResult);
-    } else {
-      console.log(findResult.id);
-      req.session.userId = findResult.id;
-      return res.send(findResult);
-    }
+
+    jwt.sign({ user: createResult }, process.env.SECRET_KEY, (err, token) => {
+      return res.status(201).send({ user: createResult, token });
+    });
+  } else {
+    jwt.sign({ user: findResult }, process.env.SECRET_KEY, (err, token) => {
+      return res.status(201).send({ user: findResult, token });
+    });
   }
 });
 
-router.post('/logout', (req, res, next) => {
-  if (req.session.userId) {
-    req.session.destroy();
-    return res.status(201).send();
-  } else {
-    next('error');
-  }
+router.post('/logout', verifyToken, (req, res) => {
+  req.headers.authorization = null;
+  return res.status(201).send();
 });
 
 module.exports = router;
