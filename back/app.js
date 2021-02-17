@@ -11,7 +11,7 @@ const cors = require('cors');
 
 const app = express();
 
-const { NotlogInError, loginError, serverError } = require('./router/err');
+// const { NotlogInError, loginError, serverError } = require('./router/err');
 
 app.use(logger('tiny'));
 
@@ -33,6 +33,13 @@ app.use(
     credentials: true,
   }),
 );
+
+// app.use({
+//   cookie: {
+//     httpOnly: true,
+//     Secure: true,
+//   },
+// });
 
 app.use('/user', userRouter);
 app.use('/post', postRouter);

@@ -17,7 +17,6 @@ export const fetchUserLogin = createAsyncThunk(
     }
     try {
       const response = await axios.post('/user/login', userData);
-      axios.defaults.headers.common.authorization = response.data.token;
       return response.data;
     } catch (error) {
       console.log(error);
