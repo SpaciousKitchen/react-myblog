@@ -8,6 +8,23 @@ const initialState = {
   done: null,
 };
 
+export const fetchLoadUserInfo = createAsyncThunk(
+  'loadUserInfofetch',
+  async (userData, { getState, rejectWithValue }) => {
+    const { loading } = getState().user;
+    if (loading !== 'pending') {
+      return;
+    }
+    try {
+      const response = await axios.get('/user/loadUserInfo');
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  },
+);
+
 export const fetchUserLogin = createAsyncThunk(
   'userLoginfetch',
   async (userData, { getState, rejectWithValue }) => {
@@ -50,6 +67,27 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchLoadUserInfo.pending, (state) => {
+        if (state.loading === 'idle') {
+          state.loading = 'pending';
+          state.error = null;
+          state.done = null;
+        }
+      })
+      .addCase(fetchLoadUserInfo.fulfilled, (state, action) => {
+        state.loading = 'idle';
+        state.done = 'Loginfulfilled';
+        console.log(action.payload.user);
+        state.userInfo = action.payload.user;
+      })
+      .addCase(fetchLoadUserInfo.rejected, (state, action) => {
+        state.loading = 'idle';
+        if (action.payload) {
+          state.error = action.payload.error;
+        } else {
+          state.error = action.error.message;
+        }
+      })
       .addCase(fetchUserLogin.pending, (state) => {
         if (state.loading === 'idle') {
           state.loading = 'pending';

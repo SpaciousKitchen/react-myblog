@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import { fetchLoadPosts } from 'reducers/freeboard';
+import { fetchLoadUserInfo } from 'reducers/user';
 import Main from './pages/main';
 import FreeBoard from './pages/freeboard';
 import FeedBoard from './pages/feedboard';
@@ -16,7 +17,12 @@ Kakao.init(config.REACT_APP_KAKAO_CLIENT_ID);
 Kakao.isInitialized();
 const App = () => {
   const dispatch = useDispatch();
-  dispatch(fetchLoadPosts());
+
+  useEffect(() => {
+    dispatch(fetchLoadPosts());
+    dispatch(fetchLoadUserInfo());
+  }, []);
+
   return (
     <>
       <Router>

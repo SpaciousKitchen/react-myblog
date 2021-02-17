@@ -4,7 +4,29 @@ const jwt = require('jsonwebtoken');
 router = express.Router();
 const dotenv = require('dotenv');
 dotenv.config();
+
 const { verifyToken } = require('./auth');
+
+router.get('/loadUserInfo', async (req, res) => {
+  if (req.cookies.user) {
+    const clientToken = req.cookies.user;
+    jwt.verify(clientToken, process.env.SECRET_KEY, async (err, authData) => {
+      if (err) {
+        next(err);
+      } else {
+        req.userId = authData.user.id;
+        try {
+          const findResult = await User.findOne({
+            where: { id: req.userId },
+          });
+          return res.status(201).send({ user: findResult });
+        } catch (error) {
+          next(error);
+        }
+      }
+    });
+  }
+});
 
 router.post('/login', async (req, res) => {
   const findResult = await User.findOne({
@@ -33,7 +55,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.post('/logout', verifyToken, (req, res) => {
-  req.headers.authorization = null;
+  res.clearCookie('user');
   return res.status(201).send();
 });
 

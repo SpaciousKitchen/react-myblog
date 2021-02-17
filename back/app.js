@@ -11,7 +11,7 @@ const cors = require('cors');
 
 const app = express();
 
-// const { NotlogInError, loginError, serverError } = require('./router/err');
+const { NotlogInError, loginError, serverError } = require('./router/err');
 
 app.use(logger('tiny'));
 
@@ -46,7 +46,7 @@ app.use('/post', postRouter);
 
 app.set('port', 3000);
 
-// app.use(NotlogInError, loginError, serverError);
+app.use(NotlogInError, loginError, serverError);
 app.listen(app.get('port'), async () => {
   console.log('서버 실행중');
 });

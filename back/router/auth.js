@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const jwt = require('jsonwebtoken');
+
 exports.verifyToken = (req, res, next) => {
   const clientToken = req.cookies.user;
   console.log('clientToken', clientToken);
