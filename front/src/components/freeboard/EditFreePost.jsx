@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState } from 'draft-js';
-import { convertToHTML, convertFromHTML } from 'draft-convert';
+import { EditorState, convertToRaw } from 'draft-js';
+import { convertFromHTML } from 'draft-convert';
+import draftToHtml from 'draftjs-to-html';
 import { useHistory } from 'react-router-dom';
 import {
   GlobalStyle,
@@ -12,14 +13,15 @@ import {
   WriteContainer,
 } from 'styles/style';
 import { fetchEditPost } from 'reducers/freeboard';
+import axios from 'axios';
+import * as config from '../../../config';
 
 const EditFreeBoard = ({ post }) => {
   const [editorState, seteditorState] = useState(
     EditorState.createWithContent(convertFromHTML(post.content)),
   );
-  const [subjectState, setSubjectState] = useState(post.subject);
-  // 기존 post에 있던 내용으로 초기화
 
+  const [subjectState, setSubjectState] = useState(post.subject);
   const dispatch = useDispatch();
   const history = useHistory();
   const onEditorStateChange = (edit) => {
@@ -27,7 +29,9 @@ const EditFreeBoard = ({ post }) => {
   };
 
   const onClickSubmit = () => {
-    const editTextHtml = convertToHTML(editorState.getCurrentContent());
+    const editTextHtml = draftToHtml(
+      convertToRaw(editorState.getCurrentContent()),
+    );
     if (!subjectState.trim()) {
       alert('제목을 입력하세요!');
       return;
@@ -45,6 +49,20 @@ const EditFreeBoard = ({ post }) => {
 
   const onChangeSubject = (e) => {
     setSubjectState(e.target.value);
+  };
+
+  const uploadImageCallBack = async (file) => {
+    const formData = new FormData();
+    formData.append('img', file);
+
+    const response = await axios.post(`${config.baseUrl}/post/image`, formData);
+    const imageObject = {
+      file,
+      imgSrc: `${config.baseUrl}/images/${response.data.filename}`,
+    };
+    return new Promise((resolve) => {
+      resolve({ data: { link: imageObject.imgSrc } });
+    });
   };
   return (
     <>
@@ -64,6 +82,17 @@ const EditFreeBoard = ({ post }) => {
             toolbarClassName="toolbar-class"
             editorState={editorState}
             onEditorStateChange={onEditorStateChange}
+            toolbar={{
+              inline: { inDropdown: true },
+              list: { inDropdown: true },
+              textAlign: { inDropdown: true },
+              link: { inDropdown: true },
+              history: { inDropdown: true },
+              image: {
+                uploadCallback: uploadImageCallBack,
+                previewImage: true,
+              },
+            }}
           />
         </WriteContainer>
 

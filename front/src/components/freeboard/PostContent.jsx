@@ -32,7 +32,6 @@ const PostContent = ({ post }) => {
   };
 
   const onClickEdit = () => {
-    console.log('clickEdit');
     history.push(`/editcontent/${post.id}`);
   };
   return (
@@ -45,11 +44,7 @@ const PostContent = ({ post }) => {
         <Divider variant="middle" />
         <div style={{ padding: '10px 30px' }}>
           {/* <ImgStyle src={post.user.img} /> */}
-          <Avatar
-            alt="Cindy Baker"
-            src="/static/images/avatar/3.jpg"
-            style={{ display: 'inline-flex' }}
-          />
+          <Avatar alt="Cindy Baker" style={{ display: 'inline-flex' }} />
           <span style={{ marginLeft: '10px' }}>{post.user?.name}</span>
 
           <span style={{ float: 'right' }}> 2017.02.08</span>

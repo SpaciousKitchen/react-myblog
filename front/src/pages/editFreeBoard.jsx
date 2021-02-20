@@ -7,7 +7,7 @@ import EditFreePost from 'components/freeboard/EditFreePost';
 const EditPage = () => {
   const { posts } = useSelector((state) => state.freeboard);
   const { id } = useParams();
-  console.log(id);
+
   const post = posts.find((element) => element.id === parseInt(id, 10));
 
   return (
