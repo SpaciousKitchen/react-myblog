@@ -4,6 +4,15 @@ const { FreePost } = require('../models');
 const { FreeComment } = require('../models');
 const { User } = require('../models');
 const { verifyToken } = require('./auth');
+const multer = require('multer');
+const path = require('path');
+
+const fs = require('fs');
+try {
+  fs.accessSync('uploads');
+} catch (error) {
+  fs.mkdirSync('uploads');
+} //파일 없을시에 생성
 
 router.get('/loadPosts', async (req, res, next) => {
   try {
@@ -28,6 +37,22 @@ router.get('/loadPosts', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/');
+  },
+  filename: function (req, file, cd) {
+    cd(null, file.originalname + '_' + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage, limits: { fileSize: 50000000 } });
+router.post('/image', verifyToken, upload.single('img'), async (req, res) => {
+  console.log(req);
+
+  return res.status(201).send({ filename: req.file.filename });
 });
 
 router.post('/addpost', verifyToken, async (req, res) => {

@@ -22,8 +22,10 @@ sequelize
   })
   .catch(console.error);
 
+app.use('/images', express.static(__dirname + '/uploads'));
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true })); //그냥폼 처리
 app.use(cookieParser());
 app.use(methodOverride());
 
