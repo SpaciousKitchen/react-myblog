@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState, convertToRaw } from 'draft-js';
-import { convertFromHTML } from 'draft-convert';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
+import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
 import { useHistory } from 'react-router-dom';
 import {
@@ -17,8 +17,14 @@ import axios from 'axios';
 import * as config from '../../../config';
 
 const EditFreeBoard = ({ post }) => {
+  const blocksFromHtml = htmlToDraft(post.content);
+  const { contentBlocks, entityMap } = blocksFromHtml;
+  const contentState = ContentState.createFromBlockArray(
+    contentBlocks,
+    entityMap,
+  );
   const [editorState, seteditorState] = useState(
-    EditorState.createWithContent(convertFromHTML(post.content)),
+    EditorState.createWithContent(contentState),
   );
 
   const [subjectState, setSubjectState] = useState(post.subject);

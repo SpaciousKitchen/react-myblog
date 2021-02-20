@@ -23,7 +23,6 @@
     "@reduxjs/toolkit": "1.5.0",
     "axios": "0.21.1",
     "css-loader": "5.0.1",
-    "draft-convert": "2.1.10",
     "draft-js": "0.11.7",
     "draftjs-to-html": "0.9.1",
     "faker": "5.1.0",
