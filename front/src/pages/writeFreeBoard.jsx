@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import { EditorState } from 'draft-js';
-import { convertToHTML } from 'draft-convert';
+import { EditorState, convertToRaw } from 'draft-js';
 import { useHistory } from 'react-router-dom';
-
+import draftToHtml from 'draftjs-to-html';
 import AppLayout from 'components/common/AppLayout';
 
 import {
@@ -15,11 +14,12 @@ import {
   WriteContainer,
 } from 'styles/style';
 import { fetchAddPost } from 'reducers/freeboard';
+import axios from 'axios';
+import * as config from '../../config';
 
 const WriteFreeBoard = () => {
   const [editorState, seteditorState] = useState(EditorState.createEmpty());
   const [subjectState, setSubjectState] = useState('');
-
   const dispatch = useDispatch();
   const history = useHistory();
   const onEditorStateChange = (edit) => {
@@ -27,7 +27,9 @@ const WriteFreeBoard = () => {
   };
 
   const onClickSubmit = () => {
-    const editTextHtml = convertToHTML(editorState.getCurrentContent());
+    const editTextHtml = draftToHtml(
+      convertToRaw(editorState.getCurrentContent()),
+    );
     if (!subjectState.trim()) {
       alert('제목을 입력하세요!');
       return;
@@ -44,6 +46,19 @@ const WriteFreeBoard = () => {
 
   const onChangeSubject = (e) => {
     setSubjectState(e.target.value);
+  };
+
+  const uploadImageCallBack = async (file) => {
+    const formData = new FormData();
+    formData.append('img', file);
+    const response = await axios.post(`${config.baseUrl}/post/image`, formData);
+    const imageObject = {
+      file,
+      imgSrc: `${config.baseUrl}/images/${response.data.filename}`,
+    };
+    return new Promise((resolve) => {
+      resolve({ data: { link: imageObject.imgSrc } });
+    });
   };
   return (
     <>
@@ -64,6 +79,17 @@ const WriteFreeBoard = () => {
               toolbarClassName="toolbar-class"
               editorState={editorState}
               onEditorStateChange={onEditorStateChange}
+              toolbar={{
+                inline: { inDropdown: true },
+                list: { inDropdown: true },
+                textAlign: { inDropdown: true },
+                link: { inDropdown: true },
+                history: { inDropdown: true },
+                image: {
+                  uploadCallback: uploadImageCallBack,
+                  previewImage: true,
+                },
+              }}
             />
           </WriteContainer>
 
