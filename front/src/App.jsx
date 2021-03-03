@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-
 import { useDispatch } from 'react-redux';
 import { fetchLoadPosts } from 'reducers/freeboard';
 import { fetchLoadUserInfo } from 'reducers/user';
@@ -13,6 +12,7 @@ import WriteFreeBoard from './pages/writeFreeBoard';
 import EditFreeBoard from './pages/editFreeBoard';
 import PostPage from './pages/postpage';
 import * as config from '../config';
+import './App.css';
 
 Kakao.init(config.REACT_APP_KAKAO_CLIENT_ID);
 Kakao.isInitialized();
