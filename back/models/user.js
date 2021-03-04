@@ -25,11 +25,5 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    //FreePosts,
-    // FeedPosts,
-    // StrudyPosts,
-    // FreeComments,
-    // FeedComments,
-    // StrudyComments
   });
 };

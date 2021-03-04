@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const sequelize = require('./models').sequelize;
 const userRouter = require('./router/user');
-const postRouter = require('./router/post');
+const freepostRouter = require('./router/freepost');
+const feedpostRouter = require('./router/feedpost');
 const logger = require('morgan');
 const methodOverride = require('method-override');
 const cors = require('cors');
@@ -44,7 +45,8 @@ app.use(
 // });
 
 app.use('/user', userRouter);
-app.use('/post', postRouter);
+app.use('/post', freepostRouter);
+app.use('/feedpost', feedpostRouter);
 
 app.set('port', 3000);
 
