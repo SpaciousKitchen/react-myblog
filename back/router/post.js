@@ -41,6 +41,7 @@ router.get('/loadPosts', async (req, res, next) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    console.log(file);
     cb(null, 'uploads/');
   },
   filename: function (req, file, cd) {
@@ -50,7 +51,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage, limits: { fileSize: 50000000 } });
 router.post('/image', verifyToken, upload.single('img'), async (req, res) => {
-  console.log(req);
+  // console.log(req);
 
   return res.status(201).send({ filename: req.file.filename });
 });

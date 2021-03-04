@@ -3,13 +3,14 @@ exports.NotlogInError = function (err, req, res, next) {
   if (!req.userId) {
     return res.status(401).send({ erorr: '로그인을해야합니다.' });
   } else {
-    next(error);
+    next(err);
   }
 };
 
 exports.loginError = function (err, req, res, next) {
   console.log('pass2');
   if (req.userId) {
+    console.log(err);
     return res.status(401).send({ error: '권한이 없습니다.' });
   } else {
     next(err);

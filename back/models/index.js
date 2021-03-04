@@ -20,13 +20,23 @@ db.User = require('./user')(sequelize, Sequelize);
 db.FreePost = require('./freepost')(sequelize, Sequelize);
 db.FreeComment = require('./freecomment')(sequelize, Sequelize);
 
+db.FeedPost = require('./feedpost')(sequelize, Sequelize);
+db.FeedComment = require('./feedcomment')(sequelize, Sequelize);
+
 db.User.hasMany(db.FreePost);
+db.User.hasMany(db.FeedPost);
 
 db.FreePost.belongsTo(db.User);
+db.FeedPost.belongsTo(db.User);
+
 db.FreePost.hasMany(db.FreeComment);
+db.FeedPost.hasMany(db.FeedComment);
 
 db.FreeComment.belongsTo(db.User);
 db.FreeComment.belongsTo(db.FreePost);
+
+db.FeedComment.belongsTo(db.User);
+db.FeedComment.belongsTo(db.FeedPost);
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
