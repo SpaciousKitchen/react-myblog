@@ -22,8 +22,8 @@ export const fetchLoadfeedPosts = createAsyncThunk(
   },
 );
 
-export const fetchAddPost = createAsyncThunk(
-  'addPostfetch',
+export const fetchFeedAddPost = createAsyncThunk(
+  'fetchFeedAddPost',
   async (postData, { getState, rejectWithValue }) => {
     const { loading } = getState().user;
     console.log(loading);
@@ -148,21 +148,21 @@ const feedBoardSlice = createSlice({
         console.log(action.error.message);
         state.error = action.payload.error;
       })
-      .addCase(fetchAddPost.pending, (state) => {
+      .addCase(fetchFeedAddPost.pending, (state) => {
         if (state.loading === 'idle') {
           state.loading = 'pending';
           state.error = null;
           state.done = null;
         }
       })
-      .addCase(fetchAddPost.fulfilled, (state, action) => {
+      .addCase(fetchFeedAddPost.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'AddPostfulfilled';
         console.log(action);
         console.log(state.feedposts);
         state.feedposts.unshift(action.payload);
       })
-      .addCase(fetchAddPost.rejected, (state, action) => {
+      .addCase(fetchFeedAddPost.rejected, (state, action) => {
         state.loading = 'idle';
         console.log('rejected');
         console.log(action.error.message);

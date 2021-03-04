@@ -36,17 +36,17 @@ const StyledCardFooter = styled.div`
   height: 10%;
 `;
 
-const Card = () => (
+const Card = ({ feedpost }) => (
   <StyledCard>
-    <StyledCardSubject>제목</StyledCardSubject>
+    <StyledCardSubject>{feedpost.subject}</StyledCardSubject>
     <StyledCardImage>
       <img
         style={{ objectFit: 'contain', width: '100%', height: '100%' }}
         src="http://localhost:3000/images/네이버 아이디로 로그인_축약형_White.PNG_1613838524792.PNG"
       />
     </StyledCardImage>
-    <StyledCardContent>내용</StyledCardContent>
-    <StyledCardFooter>밑에</StyledCardFooter>
+    <StyledCardContent>{feedpost.content}</StyledCardContent>
+    <StyledCardFooter>{feedpost.user.name}</StyledCardFooter>
   </StyledCard>
 );
 

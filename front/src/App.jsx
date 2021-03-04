@@ -8,7 +8,7 @@ import Main from './pages/main';
 import FreeBoard from './pages/freeboard';
 import FeedBoard from './pages/feedboard';
 import Study from './pages/study';
-import WriteFreeBoard from './pages/writeFreeBoard';
+import WriteBoard from './pages/writeBoard';
 import EditFreeBoard from './pages/editFreeBoard';
 import PostPage from './pages/postpage';
 import * as config from '../config';
@@ -32,7 +32,7 @@ const App = () => {
         <Route path="/freecontent/:id" component={PostPage} />
         <Route path="/feedboard" component={FeedBoard} />
         <Route path="/study" component={Study} />
-        <Route path="/write" component={WriteFreeBoard} />
+        <Route path="/write/:postname" component={WriteBoard} />
         <Route path="/editcontent/:id" component={EditFreeBoard} />
       </Router>
     </>

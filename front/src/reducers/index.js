@@ -10,6 +10,6 @@ axios.defaults.withCredentials = true;
 const rootReducer = combineReducers({
   user: user.reducer,
   freeboard: freeboard.reducer,
-  feeeboard: feedboard.reducer,
+  feedboard: feedboard.reducer,
 });
 export default rootReducer;

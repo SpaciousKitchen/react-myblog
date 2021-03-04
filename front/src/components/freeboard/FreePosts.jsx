@@ -115,7 +115,7 @@ const FreePosts = () => {
         <Button
           style={{ float: 'right' }}
           startIcon={<CreateIcon />}
-          onClick={() => history.push('/write')}
+          onClick={() => history.push('/write/freepost')}
         >
           글쓰기
         </Button>

@@ -6,7 +6,7 @@ import { EditorState, convertToRaw } from 'draft-js';
 import { useHistory } from 'react-router-dom';
 import draftToHtml from 'draftjs-to-html';
 import AppLayout from 'components/common/AppLayout';
-
+import { fetchFeedAddPost } from 'reducers/feedboard';
 import {
   GlobalStyle,
   InputStyled,
@@ -17,7 +17,7 @@ import { fetchAddPost } from 'reducers/freeboard';
 import axios from 'axios';
 import * as config from '../../config';
 
-const WriteFreeBoard = () => {
+const WriteBoard = ({ match }) => {
   const [editorState, seteditorState] = useState(EditorState.createEmpty());
   const [subjectState, setSubjectState] = useState('');
   const dispatch = useDispatch();
@@ -34,14 +34,24 @@ const WriteFreeBoard = () => {
       alert('제목을 입력하세요!');
       return;
     }
-    dispatch(
-      fetchAddPost({
-        content: editTextHtml,
-        subject: subjectState,
-      }),
-    );
 
-    history.push('/freeboard');
+    if (match.params.postname === 'feedpost') {
+      dispatch(
+        fetchFeedAddPost({
+          content: editTextHtml,
+          subject: subjectState,
+        }),
+      );
+      history.push('/feedboard');
+    } else {
+      dispatch(
+        fetchAddPost({
+          content: editTextHtml,
+          subject: subjectState,
+        }),
+      );
+      history.push('/freeboard');
+    }
   };
 
   const onChangeSubject = (e) => {
@@ -99,4 +109,4 @@ const WriteFreeBoard = () => {
     </>
   );
 };
-export default WriteFreeBoard;
+export default WriteBoard;
