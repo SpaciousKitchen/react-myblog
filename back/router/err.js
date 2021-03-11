@@ -1,3 +1,11 @@
+exports.refererCheck = (req, res, next) => {
+  if (req.headers.referer === 'http://localhost:8080/') {
+    next();
+  } else {
+    res.status(403).send('Referer Error');
+  }
+};
+
 exports.NotlogInError = function (err, req, res, next) {
   console.log('pass1');
   if (!req.userId) {

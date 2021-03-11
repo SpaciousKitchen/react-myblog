@@ -9,7 +9,7 @@ const feedpostRouter = require('./router/feedpost');
 const logger = require('morgan');
 const methodOverride = require('method-override');
 const cors = require('cors');
-
+const { refererCheck } = require('./router/err');
 const app = express();
 
 const { NotlogInError, loginError, serverError } = require('./router/err');
@@ -36,6 +36,8 @@ app.use(
     credentials: true,
   }),
 );
+
+app.use(refererCheck);
 
 app.use('/user', userRouter);
 app.use('/post', freepostRouter);
