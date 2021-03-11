@@ -37,13 +37,6 @@ app.use(
   }),
 );
 
-// app.use({
-//   cookie: {
-//     httpOnly: true,
-//     Secure: true,
-//   },
-// });
-
 app.use('/user', userRouter);
 app.use('/post', freepostRouter);
 app.use('/feedpost', feedpostRouter);
