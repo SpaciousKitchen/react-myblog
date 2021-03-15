@@ -2,20 +2,17 @@ const dotenv = require('dotenv');
 dotenv.config();
 const jwt = require('jsonwebtoken');
 
-exports.verifyToken = (req, res, next) => {
+exports.verifyToken = async (req, res, next) => {
   const clientToken = req.cookies.user;
   console.log('clientToken', clientToken);
-
-  if (typeof clientToken !== 'undefined') {
-    jwt.verify(clientToken, process.env.SECRET_KEY, async (err, authData) => {
-      if (err) {
-        next(err);
-      } else {
-        req.userId = authData.user.id;
-      }
-    });
-    next();
-  } else {
+  if (!clientToken) {
     next('error');
+  }
+  const authData = await jwt.verify(clientToken, process.env.SECRET_KEY);
+  if (authData === -3 || authData === -2) {
+    next('error');
+  } else {
+    req.userId = authData.user.id;
+    next();
   }
 };

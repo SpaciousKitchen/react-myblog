@@ -42,17 +42,18 @@ router.post('/login', async (req, res) => {
       option: req.body.option,
     });
 
-    const token = jwt.sign({ user: createResult }, process.env.SECRET_KEY, {
+    const token = await jwt.sign({ user: createResult }, process.env.SECRET_KEY, {
       algorithm: 'HS256',
       expiresIn: '30m',
     });
-    console.log('token', token);
+    res.cookie('user', token);
     return res.status(201).send({ user: createResult, token });
   } else {
-    const token = jwt.sign({ user: findResult }, process.env.SECRET_KEY, {
+    const token = await jwt.sign({ user: findResult }, process.env.SECRET_KEY, {
       algorithm: 'HS256',
       expiresIn: '30m',
     });
+    res.cookie('user', token);
     return res.status(201).send({ user: findResult, token });
   }
 });
