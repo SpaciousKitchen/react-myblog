@@ -7,7 +7,7 @@ dotenv.config();
 
 const { verifyToken } = require('./auth');
 
-router.get('/loadUserInfo', async (req, res) => {
+router.get('/loadUserInfo', verifyToken, async (req, res) => {
   if (req.cookies.user) {
     const clientToken = req.cookies.user;
     jwt.verify(clientToken, process.env.SECRET_KEY, async (err, authData) => {
