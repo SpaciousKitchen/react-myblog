@@ -8,23 +8,15 @@ dotenv.config();
 const { verifyToken } = require('./auth');
 
 router.get('/loadUserInfo', verifyToken, async (req, res) => {
-  if (req.cookies.user) {
-    const clientToken = req.cookies.user;
-    jwt.verify(clientToken, process.env.SECRET_KEY, async (err, authData) => {
-      if (err) {
-        next(err);
-      } else {
-        req.userId = authData.user.id;
-        try {
-          const findResult = await User.findOne({
-            where: { id: req.userId },
-          });
-          return res.status(201).send({ user: findResult });
-        } catch (error) {
-          next(error);
-        }
-      }
-    });
+  if (req.userId) {
+    try {
+      const findResult = await User.findOne({
+        where: { id: req.userId },
+      });
+      return res.status(201).send({ user: findResult });
+    } catch (error) {
+      next(error);
+    }
   }
 });
 
@@ -42,13 +34,13 @@ router.post('/login', async (req, res) => {
       option: req.body.option,
     });
 
-    const accessToken = await jwt.sign({ user: createResult }, process.env.SECRET_KEY, {
+    const accessToken = await jwt.sign({ id: createResult.id }, process.env.SECRET_KEY, {
       algorithm: 'HS256',
       expiresIn: '30m',
     });
-    const refreshToken = await jwt.sign({ user: createResult }, process.env.SECRET_KEY, {
+    const refreshToken = await jwt.sign({ id: createResult.id }, process.env.SECRET_KEY, {
       algorithm: 'HS256',
-      expiresIn: '7d',
+      expiresIn: '14d',
     });
 
     await User.update(
@@ -57,18 +49,17 @@ router.post('/login', async (req, res) => {
         where: { id: createResult.id },
       },
     );
-    res.cookie('userAccess', accessToken);
-    res.cookie('userRefresh', efreshToken);
-    return res.status(201).send({ user: createResult, accessToken, refreshToken });
+    res.cookie('userAccess', accessToken, { secure: true, httpOnly: true });
+    res.cookie('userRefresh', refreshToken, { secure: true, httpOnly: true });
+    return res.status(201).send({ user: createResult });
   } else {
-    const accessToken = await jwt.sign({ user: findResult }, process.env.SECRET_KEY, {
+    const accessToken = await jwt.sign({ id: findResult.id }, process.env.SECRET_KEY, {
       algorithm: 'HS256',
       expiresIn: '30m',
     });
-
-    const refreshToken = await jwt.sign({ user: findResult }, process.env.SECRET_KEY, {
+    const refreshToken = await jwt.sign({ id: findResult.id }, process.env.SECRET_KEY, {
       algorithm: 'HS256',
-      expiresIn: '7d',
+      expiresIn: '14d',
     });
 
     await User.update(
@@ -77,9 +68,10 @@ router.post('/login', async (req, res) => {
         where: { id: findResult.id },
       },
     );
-    res.cookie('user', accessToken);
-    res.cookie('userRefresh', refreshToken);
-    return res.status(201).send({ user: findResult, accessToken, refreshToken });
+
+    res.cookie('userAccess', accessToken, { secure: true, httpOnly: true });
+    res.cookie('userRefresh', refreshToken, { secure: true, httpOnly: true });
+    return res.status(201).send({ user: findResult });
   }
 });
 
