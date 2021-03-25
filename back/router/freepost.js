@@ -7,6 +7,8 @@ const { verifyToken } = require('./auth');
 const multer = require('multer');
 const path = require('path');
 
+const { Op } = require('sequelize');
+
 const fs = require('fs');
 try {
   fs.accessSync('uploads');
@@ -16,9 +18,18 @@ try {
 
 router.get('/loadPosts', async (req, res, next) => {
   try {
+    const condition = {};
+    if (parseInt(req.query.offset, 10) !== -1) {
+      condition.id = {
+        [Op.lt]: parseInt(req.query.offset, 10),
+      };
+    }
+
     const findPosts = await FreePost.findAll({
       attributes: ['id', 'content', 'views', 'createdAt', 'subject'],
+      limit: parseInt(req.query.limit, 10),
       order: [['createdAt', 'DESC']],
+      where: condition,
       include: [
         { model: User, attributes: ['id', 'name', 'img'] },
         {
@@ -51,8 +62,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage, limits: { fileSize: 50000000 } });
 router.post('/image', verifyToken, upload.single('img'), async (req, res) => {
-  // console.log(req);
-
   return res.status(201).send({ filename: req.file.filename });
 });
 
@@ -114,7 +123,6 @@ router.delete('/deletePost/:id', verifyToken, async (req, res) => {
     });
     return res.status(201).send({ postId: req.params.id });
   } else {
-    // return res.status(401).send({ error: 'You cant Delete the post' });
     next('error');
   }
 });

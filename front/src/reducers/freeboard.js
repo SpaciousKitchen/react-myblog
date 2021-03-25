@@ -6,15 +6,16 @@ const initialState = {
   error: null,
   done: null,
   posts: [],
+  noMorePosts: false,
 };
 
 export const fetchLoadPosts = createAsyncThunk(
   'loadPostsfetch',
-  async (postData, { getState, rejectWithValue }) => {
-    const { loading } = getState().user;
-    console.log(loading);
+  async (postData, { rejectWithValue }) => {
     try {
-      const response = await axios.get('/post/loadposts');
+      const response = await axios.get(
+        `/post/loadposts?offset=${postData?.offset || -1}&limit=10`,
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -24,8 +25,7 @@ export const fetchLoadPosts = createAsyncThunk(
 
 export const fetchAddPost = createAsyncThunk(
   'addPostfetch',
-  async (postData, { getState, rejectWithValue }) => {
-    const { loading } = getState().user;
+  async (postData, { rejectWithValue }) => {
     console.log(loading);
     try {
       const response = await axios.post('/post/addpost', postData);
@@ -37,8 +37,7 @@ export const fetchAddPost = createAsyncThunk(
 );
 export const fetchEditPost = createAsyncThunk(
   'editPostfetch',
-  async (postData, { getState, rejectWithValue }) => {
-    const { loading } = getState().user;
+  async (postData, { rejectWithValue }) => {
     console.log(loading);
     try {
       const response = await axios.post(
@@ -54,13 +53,7 @@ export const fetchEditPost = createAsyncThunk(
 
 export const fetchDeletePost = createAsyncThunk(
   'deletePost',
-  async (postData, { getState, rejectWithValue }) => {
-    const { loading } = getState().user;
-    console.log('goDeletePost111', loading);
-    // if (loading !== 'pending') {
-    //   return;
-    // }
-    console.log('goDeletePost2', loading);
+  async (postData, { rejectWithValue }) => {
     try {
       const response = await axios.delete(`/post/deletePost/${postData}`);
       return response.data;
@@ -72,10 +65,7 @@ export const fetchDeletePost = createAsyncThunk(
 
 export const fetchAddComment = createAsyncThunk(
   'addCommentfetch',
-  async (commentData, { getState, rejectWithValue }) => {
-    console.log(commentData);
-    const { loading } = getState().user;
-    console.log(loading);
+  async (commentData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `/post/${commentData.postId}/addComment`,
@@ -105,11 +95,7 @@ export const fetchEditComment = createAsyncThunk(
 
 export const fetchDeleteComment = createAsyncThunk(
   'deleteComment',
-  async (commentData, { getState, rejectWithValue }) => {
-    const { loading } = getState().user;
-    console.log('goDeleteComment111', loading);
-
-    console.log('goDeleteComment2', loading);
+  async (commentData, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
         `/post/${commentData.postId}/deleteComment/${commentData.commentId}`,
@@ -139,14 +125,14 @@ const freeBoardSlice = createSlice({
       .addCase(fetchLoadPosts.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'LoadPostsfulfilled';
-        console.log(action);
-        state.posts = action.payload;
+        const updatedPost = state.posts.concat(action.payload);
+        state.posts = updatedPost;
+        state.noMorePosts = action.payload.length < 10;
       })
       .addCase(fetchLoadPosts.rejected, (state, action) => {
         state.loading = 'idle';
-        console.log('rejected');
-        console.log(action.error.message);
-        state.error = action.payload.error;
+
+        state.error = action.error.message;
       })
       .addCase(fetchAddPost.pending, (state) => {
         if (state.loading === 'idle') {
@@ -158,14 +144,12 @@ const freeBoardSlice = createSlice({
       .addCase(fetchAddPost.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'AddPostfulfilled';
-        console.log(action);
-        console.log(state.posts);
+
         state.posts.unshift(action.payload);
       })
       .addCase(fetchAddPost.rejected, (state, action) => {
         state.loading = 'idle';
-        console.log('rejected');
-        console.log(action.error.message);
+
         state.error = action.payload.error;
       })
       .addCase(fetchEditPost.pending, (state) => {
@@ -178,17 +162,11 @@ const freeBoardSlice = createSlice({
       .addCase(fetchEditPost.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'EditPostfulfilled';
-        console.log(action.payload);
-
         const index = state.posts.findIndex((v) => v.id === action.payload.id);
-        console.log(index);
         state.posts[index] = action.payload;
-        // state.posts.unshift(action.payload);
       })
       .addCase(fetchEditPost.rejected, (state, action) => {
         state.loading = 'idle';
-        console.log('rejected');
-        console.log(action.error.message);
         if (action.payload.error) {
           state.error = action.payload.error;
         } else {
@@ -205,15 +183,14 @@ const freeBoardSlice = createSlice({
       .addCase(fetchDeletePost.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'DeletePostfulfilled';
-        console.log(action);
+
         state.posts = state.posts.filter(
           (v) => v.id !== parseInt(action.payload.postId, 10),
         );
       })
       .addCase(fetchDeletePost.rejected, (state, action) => {
         state.loading = 'idle';
-        console.log('rejected');
-        console.log(action.error.message);
+
         state.error = action.payload.error;
       })
       .addCase(fetchAddComment.pending, (state) => {
@@ -236,8 +213,7 @@ const freeBoardSlice = createSlice({
       })
       .addCase(fetchAddComment.rejected, (state, action) => {
         state.loading = 'idle';
-        console.log('rejected');
-        console.log(action.error.message);
+
         state.error = action.payload.error;
       })
       .addCase(fetchEditComment.pending, (state) => {
@@ -261,8 +237,7 @@ const freeBoardSlice = createSlice({
       })
       .addCase(fetchEditComment.rejected, (state, action) => {
         state.loading = 'idle';
-        console.log('rejected');
-        console.log(action.error.message);
+
         state.error = action.payload.error;
       })
       .addCase(fetchDeleteComment.pending, (state) => {
@@ -275,7 +250,7 @@ const freeBoardSlice = createSlice({
       .addCase(fetchDeleteComment.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'DeleteCommentfulfilled';
-        console.log(action.payload);
+
         const index = state.posts.findIndex(
           (v) => v.id === action.payload.postId,
         );
@@ -286,8 +261,6 @@ const freeBoardSlice = createSlice({
       })
       .addCase(fetchDeleteComment.rejected, (state, action) => {
         state.loading = 'idle';
-        console.log('rejected');
-        console.log(action.error.message);
         state.error = action.payload.error;
       });
   },
