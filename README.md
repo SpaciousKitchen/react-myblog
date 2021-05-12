@@ -5,10 +5,8 @@
 
 > 백엔드 
 > ![Generic badge](https://img.shields.io/badge/node-10.22.1-green.svg) ![Generic badge](https://img.shields.io/badge/npm-6.14.6-ff69b4.svg) ![Generic badge](https://img.shields.io/badge/express-4.17.1-blueviolet.svg)
------
 
 # 2. 💻 핵심 기능 
------
 ## 1. 프론트엔트
   |   분류  |  기능 |  진행 상황 |
   |:--------|:--------:|:--------:|
