@@ -53,9 +53,4 @@ router.post('/login', async (req, res) => {
   return res.status(201).send({ user: findResult, accessToken, refreshToken });
 });
 
-router.post('/logout', verifyToken, (req, res) => {
-  res.clearCookie('user');
-  return res.status(201).send();
-});
-
 module.exports = router;

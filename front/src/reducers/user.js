@@ -18,8 +18,6 @@ export const fetchLoadUserInfo = createAsyncThunk(
     try {
       const accessToken = window.localStorage.getItem('accessToken');
       if (accessToken) {
-        console.log('accessToken', accessToken);
-
         const response = await axios.get('/user/loadUserInfo', {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
@@ -56,11 +54,12 @@ export const fetchUserLogout = createAsyncThunk(
     if (loading !== 'pending') {
       return;
     }
+
     try {
-      const response = await axios.post('/user/logout');
-      return response.data;
+      window.localStorage.removeItem('accessToken');
+      window.localStorage.removeItem('refreshToken');
+      return true;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   },
@@ -103,7 +102,7 @@ const userSlice = createSlice({
                 state.userInfo = action.payload?.user;
               })
               .catch((err) => {
-                state.userInfo = err.response.message;
+                state.userInfo = err.response?.message;
               });
           }
         } else {
@@ -149,7 +148,6 @@ const userSlice = createSlice({
         state.userInfo = null;
       })
       .addCase(fetchUserLogout.rejected, (state, action) => {
-        console.log('rejected');
         state.loading = 'idle';
         if (action.payload) {
           state.error = action.payload.error;
