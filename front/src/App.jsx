@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchLoadPosts } from 'reducers/freeboard';
+
 import { fetchLoadUserInfo } from 'reducers/user';
 import Main from './pages/main';
 import FreeBoard from './pages/freeboard';
@@ -20,7 +20,6 @@ const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchLoadPosts());
     dispatch(fetchLoadUserInfo());
   }, []);
 

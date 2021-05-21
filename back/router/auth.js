@@ -1,44 +1,29 @@
 const dotenv = require('dotenv');
 dotenv.config();
 const jwt = require('jsonwebtoken');
-const { User } = require('../models');
+
+function reSignToken(data) {
+  const token = jwt.sign({ id: data }, process.env.SECRET_KEY, {
+    algorithm: 'HS256',
+    expiresIn: '1m',
+  });
+  console.log(token);
+  return token;
+}
 
 exports.verifyToken = async (req, res, next) => {
-  console.log('pass!!!!');
-  const clientToken = req.cookies.userAccess;
-  const refreshToken = req.cookies.userRefresh;
-  if (!clientToken) {
-    next('error');
-  }
-  console.log(clientToken);
+  const token = req.headers.authorization.split(' ')[1];
 
-  const authData = await jwt.verify(clientToken, process.env.SECRET_KEY);
-  if (authData === -3 || authData === -2) {
-    next('error');
-    if (!checkIsVable(refreshToken)) {
-      //회원 정보와 비교,
-      next('error');
-    } else {
-      const accessToken = await jwt.sign({ id: createResult.id }, process.env.SECRET_KEY, {
-        algorithm: 'HS256',
-        expiresIn: '30m',
-      });
-      res.cookie('userAccess', accessToken, { secure: true, httpOnly: true });
-      next();
-    }
-  } else {
-    req.userId = authData.id;
-    next();
-  }
-};
-
-exports.checkIsVable = async data => {
   try {
-    await User.findOne({
-      where: { refreshToken: data },
-    });
-    return true;
+    const authData = await jwt.verify(token, process.env.SECRET_KEY);
+    req.userId = authData.id;
+    req.token = reSignToken(authData.id);
+    next();
   } catch (error) {
-    return false;
+    if (error.message === 'jwt expired') {
+      return res.status(401).send({ code: 1010, message: '토큰 유효기한이 만료되었습니다' });
+    } else {
+      return res.status(401).send({ code: 1011, message: error.message });
+    }
   }
 };

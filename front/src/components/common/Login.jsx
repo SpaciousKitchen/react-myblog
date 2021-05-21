@@ -38,7 +38,7 @@ const Login = ({ setLoginVisible }) => {
         Kakao.API.request({
           url: '/v2/user/me',
           success(response) {
-            console.log(fetchUserLogin.type);
+            console.log(response);
             dispatch(
               fetchUserLogin({
                 loginId: response.id,

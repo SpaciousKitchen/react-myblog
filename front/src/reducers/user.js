@@ -16,10 +16,17 @@ export const fetchLoadUserInfo = createAsyncThunk(
       return;
     }
     try {
-      const response = await axios.get('/user/loadUserInfo');
-      return response.data;
+      const accessToken = window.localStorage.getItem('accessToken');
+      if (accessToken) {
+        console.log('accessToken', accessToken);
+
+        const response = await axios.get('/user/loadUserInfo', {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+
+        return response.data;
+      }
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   },
@@ -77,13 +84,28 @@ const userSlice = createSlice({
       .addCase(fetchLoadUserInfo.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'Loginfulfilled';
-        console.log(action.payload.user);
-        state.userInfo = action.payload.user;
+
+        state.userInfo = action.payload?.user;
+        window.localStorage.setItem('accessToken', action.payload.token);
       })
       .addCase(fetchLoadUserInfo.rejected, (state, action) => {
         state.loading = 'idle';
+
         if (action.payload) {
-          state.error = action.payload.error;
+          if (action.payload.code === 1010) {
+            const refreshToken = window.localStorage.getItem('refreshToken');
+            axios
+              .get('/user/loadUserInfo', {
+                headers: { Authorization: `Bearer ${refreshToken}` },
+              })
+              .then((res) => {
+                window.localStorage.setItem('accessToken', res.data.token);
+                state.userInfo = action.payload?.user;
+              })
+              .catch((err) => {
+                state.userInfo = err.response.message;
+              });
+          }
         } else {
           state.error = action.error.message;
         }
@@ -98,7 +120,12 @@ const userSlice = createSlice({
       .addCase(fetchUserLogin.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'Loginfulfilled';
-        console.log(action.payload.user);
+
+        window.localStorage.setItem('accessToken', action.payload.accessToken);
+        window.localStorage.setItem(
+          'refreshToken',
+          action.payload.refreshToken,
+        );
         state.userInfo = action.payload.user;
       })
       .addCase(fetchUserLogin.rejected, (state, action) => {
