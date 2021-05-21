@@ -1,17 +1,12 @@
 # 1. 🥰 서비스 소개
  - 나만의 블로그 만들기(개인 프로젝트)
-> 프론트엔트 : React
-> 백엔드 : Node.js
------
+> 프론트엔트 
+> ![Generic badge](https://img.shields.io/badge/react-17.0.1-green.svg) ![Generic badge](https://img.shields.io/badge/redux_Toolkit-6.14.6-ff69b4.svg)
 
-# 2. 기술 스택 
- - React
- - React-redux ,Redux-toolkit
- - Node.js , express.js
------
+> 백엔드 
+> ![Generic badge](https://img.shields.io/badge/node-10.22.1-green.svg) ![Generic badge](https://img.shields.io/badge/npm-6.14.6-ff69b4.svg) ![Generic badge](https://img.shields.io/badge/express-4.17.1-blueviolet.svg)
 
-# 3. 💻 핵심 기능 
------
+# 2. 💻 핵심 기능 
 ## 1. 프론트엔트
   |   분류  |  기능 |  진행 상황 |
   |:--------|:--------:|:--------:|
@@ -29,9 +24,7 @@
    |**게시글(페이스북 게시글 형태)** | 게시글 작성  | 진행 중|
   | | 게시글 수정  |  |
   | | 게시글 삭제  |  |
-  |**댓글** | 댓글 작성  | |
-  | | 댓글 수정  |  |
-  | | 댓글 삭제  |  |
+
 
 ## 2. 백엔드 
   |   분류  |  기능 |  진행 상황 |
