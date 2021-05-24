@@ -61,7 +61,7 @@ const FreePosts = () => {
     const newPage = next;
 
     if (!noMorePosts && (curPage + 2) * rowsPerPage >= posts.length) {
-      dispatch(fetchLoadPosts({ offset: posts[posts.length - 1].id }));
+      dispatch(fetchLoadPosts({ cursor: posts[posts.length - 1].id }));
       setCurPage(newPage);
     } else {
       setCurPage(newPage);

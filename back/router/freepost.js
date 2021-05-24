@@ -19,9 +19,9 @@ try {
 router.get('/loadPosts', async (req, res, next) => {
   try {
     const condition = {};
-    if (parseInt(req.query.offset, 10) !== -1) {
+    if (parseInt(req.query.cursor, 10) !== -1) {
       condition.id = {
-        [Op.lt]: parseInt(req.query.offset, 10),
+        [Op.lt]: parseInt(req.query.cursor, 10),
       };
     }
 

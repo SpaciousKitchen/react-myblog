@@ -14,7 +14,7 @@ export const fetchLoadPosts = createAsyncThunk(
   async (postData, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/post/loadposts?offset=${postData?.offset || -1}&limit=10`,
+        `/post/loadposts?cursor=${postData?.cursor || -1}&limit=10`,
       );
       return response.data;
     } catch (error) {
