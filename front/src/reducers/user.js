@@ -85,7 +85,7 @@ const userSlice = createSlice({
         state.done = 'Loginfulfilled';
 
         state.userInfo = action.payload?.user;
-        window.localStorage.setItem('accessToken', action.payload.token);
+        window.localStorage.setItem('accessToken', action.payload?.token);
       })
       .addCase(fetchLoadUserInfo.rejected, (state, action) => {
         state.loading = 'idle';
@@ -120,7 +120,7 @@ const userSlice = createSlice({
         state.loading = 'idle';
         state.done = 'Loginfulfilled';
 
-        window.localStorage.setItem('accessToken', action.payload.accessToken);
+        window.localStorage.setItem('accessToken', action.payload?.accessToken);
         window.localStorage.setItem(
           'refreshToken',
           action.payload.refreshToken,
