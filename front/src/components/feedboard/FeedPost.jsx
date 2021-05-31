@@ -14,8 +14,6 @@ const StyledFeedContainer = styled.div`
 
 const FreePosts = () => {
   const { feedposts } = useSelector((state) => state.feedboard);
-  console.log(feedposts);
-
   const history = useHistory();
   return (
     <div>

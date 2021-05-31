@@ -7,7 +7,7 @@ function reSignToken(data) {
     algorithm: 'HS256',
     expiresIn: '1m',
   });
-  console.log(token);
+
   return token;
 }
 

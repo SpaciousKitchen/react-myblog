@@ -18,9 +18,7 @@ app.use(logger('tiny'));
 
 sequelize
   .sync()
-  .then(() => {
-    console.log('DB 연결중');
-  })
+  .then(() => { })
   .catch(console.error);
 
 app.use('/images', express.static(__dirname + '/uploads'));

@@ -38,7 +38,6 @@ const Login = ({ setLoginVisible }) => {
         Kakao.API.request({
           url: '/v2/user/me',
           success(response) {
-            console.log(response);
             dispatch(
               fetchUserLogin({
                 loginId: response.id,
@@ -51,7 +50,7 @@ const Login = ({ setLoginVisible }) => {
             );
           },
           fail(err) {
-            console.log(err);
+            alert(err?.response?.message);
           },
         });
       },
@@ -62,7 +61,6 @@ const Login = ({ setLoginVisible }) => {
   };
 
   const onClickGoogleLogin = (response) => {
-    console.log(response);
     dispatch(
       fetchUserLogin({
         loginId: response.googleId,

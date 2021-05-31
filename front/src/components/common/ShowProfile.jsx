@@ -20,12 +20,10 @@ const ShowUserProfile = () => {
         Kakao.API.request({
           url: '/v1/user/unlink',
           success() {
-            console.log('click Logout');
-            console.log(Kakao.Auth.getAccessToken());
             dispatch(fetchUserLogout());
           },
           fail(error) {
-            console.log(error);
+            alert(error?.response?.messsage);
           },
         });
         break;

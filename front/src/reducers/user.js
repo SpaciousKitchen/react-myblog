@@ -41,7 +41,6 @@ export const fetchUserLogin = createAsyncThunk(
       const response = await axios.post('/user/login', userData);
       return response.data;
     } catch (error) {
-      console.log(error);
       return rejectWithValue(error.response.data);
     }
   },

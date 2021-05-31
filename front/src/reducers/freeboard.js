@@ -26,7 +26,6 @@ export const fetchLoadPosts = createAsyncThunk(
 export const fetchAddPost = createAsyncThunk(
   'addPostfetch',
   async (postData, { rejectWithValue }) => {
-    console.log(loading);
     try {
       const response = await axios.post('/post/addpost', postData);
       return response.data;
@@ -38,7 +37,6 @@ export const fetchAddPost = createAsyncThunk(
 export const fetchEditPost = createAsyncThunk(
   'editPostfetch',
   async (postData, { rejectWithValue }) => {
-    console.log(loading);
     try {
       const response = await axios.post(
         `/post/editPost/${postData.id}`,
