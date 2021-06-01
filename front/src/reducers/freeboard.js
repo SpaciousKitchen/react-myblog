@@ -14,7 +14,9 @@ export const fetchLoadPosts = createAsyncThunk(
   async (postData, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `/post/loadposts?cursor=${postData?.cursor || -1}&limit=10`,
+        `/post/loadposts?cursor=${postData?.cursor || -1}&more=${
+          postData?.next || 1
+        }&limit=50`,
       );
       return response.data;
     } catch (error) {
@@ -39,7 +41,7 @@ export const fetchEditPost = createAsyncThunk(
   async (postData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `/post/editPost/${postData.id}`,
+        `/ post / editPost / ${postData.id} `,
         postData,
       );
       return response.data;
@@ -53,7 +55,7 @@ export const fetchDeletePost = createAsyncThunk(
   'deletePost',
   async (postData, { rejectWithValue }) => {
     try {
-      const response = await axios.delete(`/post/deletePost/${postData}`);
+      const response = await axios.delete(`/ post / deletePost / ${postData} `);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -66,7 +68,7 @@ export const fetchAddComment = createAsyncThunk(
   async (commentData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `/post/${commentData.postId}/addComment`,
+        `/ post / ${commentData.postId} /addComment`,
         commentData,
       );
       return response.data;
@@ -123,12 +125,12 @@ const freeBoardSlice = createSlice({
       .addCase(fetchLoadPosts.fulfilled, (state, action) => {
         state.loading = 'idle';
         state.done = 'LoadPostsfulfilled';
-        const updatedPost = state.posts.concat(action.payload);
-        state.posts = updatedPost;
+        state.posts = action.payload;
         state.noMorePosts = action.payload.length < 10;
       })
       .addCase(fetchLoadPosts.rejected, (state, action) => {
         state.loading = 'idle';
+        console.log(action.error.message);
 
         state.error = action.error.message;
       })

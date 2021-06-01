@@ -35,7 +35,8 @@
         "no-param-reassign":"off",
         "consistent-return":"off",
         "no-alert":"off",
-        "no-restricted-globals": ["off"]
+        "no-restricted-globals": ["off"],
+        "jsx-a11y/no-noninteractive-element-interactions":"off"
     }
    
 }

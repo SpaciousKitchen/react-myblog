@@ -101,6 +101,7 @@ const userSlice = createSlice({
                 state.userInfo = action.payload?.user;
               })
               .catch((err) => {
+                console.log(err.response);
                 state.userInfo = err.response?.message;
               });
           }

@@ -8,12 +8,11 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import CreateIcon from '@material-ui/icons/Create';
 import { useHistory } from 'react-router-dom';
+import PageNation from './PageNation';
 
 const columns = [
   { label: 'Number', minWidth: 100 },
@@ -47,31 +46,17 @@ const useStyles = makeStyles({
 const FreePosts = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { posts, noMorePosts } = useSelector((state) => state.freeboard);
+  const { posts } = useSelector((state) => state.freeboard);
   const { userInfo } = useSelector((state) => state.user);
-  const [curPage, setCurPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [nowPage, setnowPage] = useState(1);
+  const [slicePage, setSlicePage] = useState(0);
+  const [rowsPerPage] = useState(10);
   const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(fetchLoadPosts());
-  }, []);
-  const onHadlePage = (e, next) => {
-    const newPage = next;
-
-    if (!noMorePosts && (curPage + 2) * rowsPerPage >= posts.length) {
-      dispatch(fetchLoadPosts({ cursor: posts[posts.length - 1].id }));
-      setCurPage(newPage);
-    } else {
-      setCurPage(newPage);
+    if (!posts.length) {
+      dispatch(fetchLoadPosts());
     }
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(event.target.value);
-  };
-
+  }, []);
   const onClickPost = (id) => {
     history.push(`/freecontent/${id}`);
   };
@@ -93,8 +78,8 @@ const FreePosts = () => {
             <TableBody>
               {posts
                 .slice(
-                  curPage * rowsPerPage,
-                  curPage * rowsPerPage + rowsPerPage,
+                  slicePage * rowsPerPage,
+                  slicePage * rowsPerPage + rowsPerPage,
                 )
                 .map((element) => (
                   <TableRow
@@ -116,15 +101,10 @@ const FreePosts = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          rowsPerPage={rowsPerPage}
-          page={curPage}
-          count={posts.length}
-          onChangePage={onHadlePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
+        <PageNation
+          setSlicePage={setSlicePage}
+          nowPage={nowPage}
+          setnowPage={setnowPage}
         />
       </Paper>
 
