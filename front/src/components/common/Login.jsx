@@ -83,13 +83,6 @@ const Login = ({ setLoginVisible }) => {
             orientation="vertical"
             size="medium"
           >
-            <Button
-              style={{ background: '#2DB400', border: 'none' }}
-              startIcon={<img src="../../public/naver_logo.png" />}
-              onClick={onClickNaverLogin}
-            >
-              네이버 로그인
-            </Button>
             <br />
             <Button
               KaKaoLogin
@@ -115,7 +108,6 @@ const Login = ({ setLoginVisible }) => {
               onFailure={onClickGoogleLogin}
               cookiePolicy="single_host_origin"
             />
-            ,
           </ButtonGroup>
         </ContainLogin>
       </Overlay>
